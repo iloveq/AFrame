@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- 加载中的Progressbar样式 -->
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <!-- 自定义对话框样式 -->
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+
+        <!-- Dialog的windowFrame 无边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 浮动与Activity窗口之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 没有title -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 背景色为透明 -->
+        <item name="android:background">@android:color/transparent</item>
+        <!-- 窗口背景色为透明，不设置这个属性，对话框背景会出现四个角 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 背景模糊显示 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 设置背景透明度 -->
+        <item name="android:backgroundDimAmount">0.4</item>
+    </style>
+
+
+    <style name="loading_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- 边框 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 背景透明 -->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!-- 模糊 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 半透明 -->
+    </style>
+
+    <style name="NetworkStateViewStyle">
+        <item name="loadingView">@layout/view_loading</item>
+        <item name="errorView">@layout/view_network_error</item>
+        <item name="nsvErrorImage">@drawable/ic_net_error</item>
+        <item name="nsvErrorText">网络异常~</item>
+        <item name="emptyView">@layout/view_empty</item>
+        <item name="nsvEmptyImage">@drawable/ic_empty</item>
+        <item name="nsvEmptyText">没有数据~</item>
+        <item name="noNetworkView">@layout/view_no_network</item>
+        <item name="nsvNoNetworkImage">@drawable/ic_no_network</item>
+        <item name="nsvNoNetworkText">没有网络~</item>
+        <item name="nsvRefreshImage">@drawable/ic_refresh</item>
+        <item name="nsvTextSize">14sp</item>
+        <item name="nsvTextColor">#8a000000</item>
+    </style>
+
+</resources>

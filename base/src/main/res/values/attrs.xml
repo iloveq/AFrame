@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="styleNetworkStateView" format="reference" />
+
+    <!-- 网络加载状态View -->
+    <declare-styleable name="NetworkStateView">
+
+        <!-- 加载中的布局id -->
+        <attr name="loadingView" format="reference" />
+
+        <!-- 加载错误的布局id -->
+        <attr name="errorView" format="reference" />
+        <!-- 加载错误的布局图片 -->
+        <attr name="nsvErrorImage" format="reference" />
+        <!-- 加载错误的布局文字 -->
+        <attr name="nsvErrorText" format="string" />
+
+        <!-- 没有数据的布局id -->
+        <attr name="emptyView" format="reference" />
+        <!-- 没有数据的布局图片 -->
+        <attr name="nsvEmptyImage" format="reference" />
+        <!-- 没有数据的布局文字 -->
+        <attr name="nsvEmptyText" format="string" />
+
+        <!-- 没有网络的布局id -->
+        <attr name="noNetworkView" format="reference" />
+        <!-- 没有数据的布局图片 -->
+        <attr name="nsvNoNetworkImage" format="reference" />
+        <!-- 没有数据的布局文字 -->
+        <attr name="nsvNoNetworkText" format="string" />
+
+        <!-- 刷新的ImageView图片id -->
+        <attr name="nsvRefreshImage" format="reference"/>
+
+        <!-- 文字大小 -->
+        <attr name="nsvTextSize" format="dimension" />
+        <!-- 文字颜色 -->
+        <attr name="nsvTextColor" format="color" />
+    </declare-styleable>
+
+    <attr name="LoadingStyle" format="reference" />
+    <declare-styleable name="LoadingView">
+        <attr name="loading_view_size" format="dimension" />
+        <attr name="android:color" />
+    </declare-styleable>
+
+</resources>
