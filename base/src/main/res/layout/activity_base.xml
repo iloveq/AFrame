@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.woaiqw.base.widget.NetworkStateView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.woaiqw.base.widget.NetworkStateView 
         android:id="@+id/nsv_state_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
