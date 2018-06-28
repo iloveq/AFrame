@@ -6,4 +6,7 @@ package com.woaiqw.base;
 
 public interface IProxy {
 
+    void initAFrame(AFrameBinder binder);
+
+    <T> T createService();
 }

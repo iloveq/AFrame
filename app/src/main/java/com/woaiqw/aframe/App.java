@@ -1,5 +1,7 @@
 package com.woaiqw.aframe;
 
+import com.woaiqw.base.AFrameBinder;
+import com.woaiqw.base.AFrameProxy;
 import com.woaiqw.base.common.BaseApp;
 
 /**
@@ -10,5 +12,16 @@ public class App extends BaseApp {
     @Override
     public void onCreate() {
         super.onCreate();
+        AFrameProxy.getInstance().initAFrame(new AFrameBinder() {
+            @Override
+            public String getServerHost() {
+                return "localhost:8080";
+            }
+
+            @Override
+            public Class getApiService() {
+                return IApiService.class;
+            }
+        });
     }
 }

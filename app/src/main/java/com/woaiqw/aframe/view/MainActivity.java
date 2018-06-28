@@ -1,10 +1,11 @@
-package com.woaiqw.aframe;
+package com.woaiqw.aframe.view;
 
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.woaiqw.aframe.R;
 import com.woaiqw.base.common.BaseActivity;
 import com.woaiqw.base.utils.ToastUtil;
 
