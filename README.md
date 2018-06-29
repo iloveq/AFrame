@@ -1,22 +1,27 @@
 # AFrame
+
+#### 项目介绍
 慎用，只适合本的明信片项目
 AFrameProxy里的一个坑：
 String HOST_MAPPING = "/api/";
-#### 项目介绍
-    project下
-      repositories {
+
+
+```
+    // project下
+    repositories {
         //google()
         //jcenter()
         maven { url "https://jitpack.io" }
     }
-    
-    module下
+```
+```
+    //module下
     //a frame 一些通用的类
     //simple版本
     //compile 'com.github.woaigmz:AFrame:0.0.2'
     //proxy版本
     compile 'com.github.woaigmz:AFrame:0.0.3'
-
+```
 
 #### 软件架构
 
