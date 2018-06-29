@@ -46,8 +46,8 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
     @Override
     public void onNetworkViewRefresh() {
         super.onNetworkViewRefresh();
-        showContentView();
-        ToastUtil.showShortToast("重试请求成功");
+        ToastUtil.showShortToast("重新请求中...");
+        presenter.getCardList();
     }
 
     @Override
