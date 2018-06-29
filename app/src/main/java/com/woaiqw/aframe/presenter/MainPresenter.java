@@ -23,9 +23,11 @@ public class MainPresenter extends BasePresenter<MainContract.IMainView, MainCon
     @Override
     public void getCardList() {
         checkViewAttached();
+        mView.showLoading();
         mDisposable.add(mModel.getCardList().subscribe(new Consumer<List<CardListBean.CardBean>>() {
             @Override
             public void accept(List<CardListBean.CardBean> cardBeanList) throws Exception {
+                mView.hideLoading();
                 if (cardBeanList == null || cardBeanList.size() == 0) {
                     mView.showEmptyDataView();
                 } else {

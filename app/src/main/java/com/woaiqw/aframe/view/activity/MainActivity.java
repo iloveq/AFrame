@@ -1,4 +1,4 @@
-package com.woaiqw.aframe.view;
+package com.woaiqw.aframe.view.activity;
 
 
 import android.os.Bundle;
@@ -32,13 +32,13 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        presenter = new MainPresenter();
-        presenter.onAttach(this);
         BorderDividerItemDecoration itemDecoration = new BorderDividerItemDecoration(this.getResources().getDimensionPixelOffset(R.dimen.border_divider_height), this.getResources().getDimensionPixelOffset(R.dimen.border_padding_spans));
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rv.setLayoutManager(staggeredGridLayoutManager);
         rv.addItemDecoration(itemDecoration);
         adapter = new CardListAdapter();
+        presenter = new MainPresenter();
+        presenter.onAttach(this);
         rv.setAdapter(adapter);
         presenter.getCardList();
     }
@@ -52,26 +52,28 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
 
     @Override
     public void showLoading() {
-
+        showLoadingView();
     }
 
     @Override
     public void hideLoading() {
-
+        showContentView();
     }
 
     @Override
     public void onError(String message) {
-
+        ToastUtil.showShortToast(message);
+        showErrorView();
     }
 
     @Override
     public void showEmptyDataView() {
-
+        showEmptyView();
     }
 
     @Override
     public void showCardList(List<CardListBean.CardBean> cardBeanList) {
-        adapter.replaceData(cardBeanList);
+        if (adapter!=null)
+            adapter.replaceData(cardBeanList);
     }
 }
