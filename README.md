@@ -10,9 +10,10 @@
     
     module下
     //a frame 一些通用的类
-    compile 'com.github.woaigmz:AFrame:0.0.2'
-    
-    //
+    //simple版本
+    //compile 'com.github.woaigmz:AFrame:0.0.2'
+    //proxy版本
+    compile 'com.github.woaigmz:AFrame:0.0.3'
 
 
 #### 软件架构
