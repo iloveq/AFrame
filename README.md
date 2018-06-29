@@ -20,6 +20,47 @@
 
 
 #### 使用说明
+1：创建IApiService (因为AFrame用到retrofit，网络权限可以不添加AFrame的manifest里已经声明过了)
+```
+public interface IApiService {
+
+    //欢迎页获取全局配置信息
+    @POST("getCardList")
+    @FormUrlEncoded
+    Observable<BaseResult<CardListBean>> getCardList(@Field("name") String name, @Field("page") String page, @Field("max") String max);
+
+}
+```
+2：创建App 继承BaseApp (注意：主项目的manifest的application里android:name=".App")
+```
+public class App extends BaseApp {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+}
+```
+3：初始化代理(在你的App里)
+```
+public class App extends BaseApp {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        AFrameProxy.getInstance().initAFrame(new AFrameBinder() {
+            @Override
+            public String getServerHost() {
+                return "http://118.89.233.211:3000";
+            }
+
+            @Override
+            public Class getApiService() {
+                return IApiService.class;
+            }
+        });
+    }
+}
+```
+
 
 
 #### 参与贡献
