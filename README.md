@@ -2,8 +2,9 @@
 
 #### 项目介绍
 慎用，只适合本人的《微笑明信片》项目
-AFrameProxy里的一个坑：
-String HOST_MAPPING = "/api/";
+//AFrameProxy里的一个坑：
+//String HOST_MAPPING = "/api/";
+上面两行代码以去除，但还是慎用，谢谢关注：)
 
 
 ```
@@ -20,7 +21,9 @@ String HOST_MAPPING = "/api/";
     //simple版本
     //compile 'com.github.woaigmz:AFrame:0.0.2'
     //proxy版本
-    compile 'com.github.woaigmz:AFrame:0.0.3'
+    //compile 'com.github.woaigmz:AFrame:0.0.3'
+    //去除host-mapping版本，可正常使用
+    compile 'com.github.woaigmz:AFrame:0.0.4'
 ```
 
 #### 软件架构
