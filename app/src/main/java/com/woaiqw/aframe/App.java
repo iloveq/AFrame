@@ -15,7 +15,7 @@ public class App extends BaseApp {
         AFrameProxy.getInstance().initAFrame(new AFrameBinder() {
             @Override
             public String getServerHost() {
-                return "http://118.89.233.211:3000";
+                return "http://118.89.233.211:3000/api/";
             }
 
             @Override
