@@ -13,4 +13,6 @@ public interface IBaseView {
 
     void onError(String message);
 
+    void showEmptyDataView();
+
 }
