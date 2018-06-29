@@ -44,6 +44,12 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDetach();
+    }
+
+    @Override
     public void onNetworkViewRefresh() {
         super.onNetworkViewRefresh();
         ToastUtil.showShortToast("重新请求中...");
