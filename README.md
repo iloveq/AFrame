@@ -1,5 +1,7 @@
 # AFrame
-
+慎用，只适合本的明信片项目
+AFrameProxy里的一个坑：
+String HOST_MAPPING = "/api/";
 #### 项目介绍
     project下
       repositories {
