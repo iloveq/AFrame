@@ -19,11 +19,11 @@ public class AFrameProxy implements IProxy {
     }
 
     private void initRetrofit() {
-        String HOST_MAPPING = "/api/";
+
         retrofit = new Retrofit.Builder().client(OkHttpHelper.getInstance().getClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(binder.getServerHost() + HOST_MAPPING).build();
+                .baseUrl(binder.getServerHost()).build();
     }
 
 
