@@ -1,7 +1,7 @@
 # AFrame
 
 #### 项目介绍
-慎用，只适合本的明信片项目
+慎用，只适合本人的《微笑明信片》项目
 AFrameProxy里的一个坑：
 String HOST_MAPPING = "/api/";
 
