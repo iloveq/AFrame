@@ -1,6 +1,6 @@
 # AFrame
 
-#### 项目介绍 ：
+### 项目介绍 ：
 https://www.jianshu.com/p/62f33de16522
 
 //慎用，只适合本人的《微笑明信片》项目
@@ -31,7 +31,7 @@ https://www.jianshu.com/p/62f33de16522
     
 ```
 
-#### 软件架构 ：
+### 软件架构 ：
 
 1. 单一职责原则（Single Responsibility Principle - SRP）
 2. 开放封闭原则（Open Closed Principle - OCP）
@@ -41,9 +41,9 @@ https://www.jianshu.com/p/62f33de16522
 6. 依赖倒置原则（Dependence Inversion Principle - DIP）
 
 
-#### 使用说明 ：
+### 使用说明 ：
 
-1：创建IApiService (因为AFrame用到retrofit，网络权限可以不添加AFrame的manifest里已经声明过了)
+###### 1：创建IApiService (因为AFrame用到retrofit，网络权限可以不添加AFrame的manifest里已经声明过了)
 ```
 public interface IApiService {
 
@@ -55,7 +55,7 @@ public interface IApiService {
 }
 
 ```
-2：创建App 继承BaseApp (注意：主项目的manifest的application里android:name=".App")
+###### 2：创建App 继承BaseApp (注意：主项目的manifest的application里android:name=".App")
 ```
 public class App extends BaseApp {
     @Override
@@ -65,7 +65,7 @@ public class App extends BaseApp {
 }
 
 ```
-3：初始化代理(在你的App里)
+###### 3：初始化代理(在你的App里)
 ```
 public class App extends BaseApp {
     @Override
@@ -86,7 +86,7 @@ public class App extends BaseApp {
 }
 
 ```
-4：网络请求部分(使用rxjava)
+###### 4：网络请求部分(使用rxjava)
 注: 创建apiservice是网络请求的关键，可在mvp的model层里网络请求 ：）
 ```
 AFrameProxy.getInstance().<IApiService>createService() 
