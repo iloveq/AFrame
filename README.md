@@ -76,11 +76,11 @@ public class App extends BaseApp {
 }
 ```
 4：网络请求部分(使用rxjava)
-注: 通过 
+注: 创建apiservice是网络请求的关键，可在mvp的model层里网络请求 ：）
 ```
 AFrameProxy.getInstance().<IApiService>createService() 
 ```
-创建apiservice
+
 使用:
 ```
 public class MainModel implements MainContract.IMainModel {
