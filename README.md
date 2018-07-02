@@ -25,7 +25,10 @@ https://www.jianshu.com/p/62f33de16522
     //proxy版本
     //compile 'com.github.woaigmz:AFrame:0.0.3'
     //去除host-mapping版本，可正常使用
-    compile 'com.github.woaigmz:AFrame:0.0.4'
+    compile 'com.github.woaigmz:AFrame:0.0.
+    //要使用AFrame的BaseActivity系列的话别忘了添加butterknife
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    
 ```
 
 #### 软件架构
