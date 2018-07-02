@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 
 public interface IApiService {
 
-    //欢迎页获取全局配置信息
+    //api/getCardList 获取推荐明信片列表
     @POST("getCardList")
     @FormUrlEncoded
     Observable<BaseResult<CardListBean>> getCardList(@Field("name") String name, @Field("page") String page, @Field("max") String max);
