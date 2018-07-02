@@ -73,7 +73,7 @@ public class App extends BaseApp {
 }
 ```
 4：网络请求部分(使用rxjava)
-AFrameProxy.getInstance().<IApiService> createService() 时创建apiservice的关键
+注: 通过 AFrameProxy.getInstance().<IApiService>createService() 创建apiservice
 ```
 public class MainModel implements MainContract.IMainModel {
 
