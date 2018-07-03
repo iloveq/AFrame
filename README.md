@@ -3,12 +3,9 @@
 ### 项目介绍 ：
 https://www.jianshu.com/p/62f33de16522
 
-//慎用，只适合本人的《微笑明信片》项目
-//AFrameProxy里的一个坑：
-//String HOST_MAPPING = "/api/";
-上面两行代码以去除，但还是慎用，谢谢关注：)
+建议直接引用base-module，有bug方便修改(慎用)，谢谢大家关注，欢迎fork，issues ：)
 
-// project下
+#####  root build.gradle at the end of repositories :
 ```
     repositories {
         //google()
@@ -17,7 +14,7 @@ https://www.jianshu.com/p/62f33de16522
     }
     
 ```
-// module下
+#####   Add the dependency of your app module :
 ```
     //a frame 一些通用的类
     //simple版本
