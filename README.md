@@ -16,13 +16,7 @@ https://www.jianshu.com/p/62f33de16522
 ```
 #####   Add the dependency of your app module :
 ```
-    //a frame 一些通用的类
-    //simple版本
-    //compile 'com.github.woaigmz:AFrame:0.0.2'
-    //proxy版本
-    //compile 'com.github.woaigmz:AFrame:0.0.3'
-    //去除host-mapping版本，可正常使用
-    compile 'com.github.woaigmz:AFrame:0.0.
+    compile 'com.github.woaigmz:AFrame:0.0.4'
     //要使用AFrame的BaseActivity系列的话别忘了添加butterknife
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     
@@ -110,6 +104,17 @@ public class MainModel implements MainContract.IMainModel {
 }
 
 ```
+
+### 版本说明 ：
+
+    1：test 版本
+    compile 'com.github.woaigmz:AFrame:0.0.2'
+    2：simple 版本
+    compile 'com.github.woaigmz:AFrame:0.0.2'
+    3：proxy版本 含 host-mapping
+    compile 'com.github.woaigmz:AFrame:0.0.3'
+    4：去除 mapping 版本
+    compile 'com.github.woaigmz:AFrame:0.0.4'
 
 
 
