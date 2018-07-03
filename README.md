@@ -24,13 +24,14 @@ https://www.jianshu.com/p/62f33de16522
 
 ### 软件架构 ：
 
+```
 1. 单一职责原则（Single Responsibility Principle - SRP）
 2. 开放封闭原则（Open Closed Principle - OCP）
 3. 里氏替换原则（Liskov Substitution Principle - LSP）
 4. 最少知识原则（Least Knowledge Principle - LKP）
 5. 接口隔离原则（Interface Segregation Principle - ISP）
 6. 依赖倒置原则（Dependence Inversion Principle - DIP）
-
+```
 
 ### 使用说明 ：
 
@@ -107,6 +108,7 @@ public class MainModel implements MainContract.IMainModel {
 
 ### 版本说明 ：
 
+```
     1：test 版本
     compile 'com.github.woaigmz:AFrame:0.0.2'
     2：simple 版本
@@ -115,6 +117,6 @@ public class MainModel implements MainContract.IMainModel {
     compile 'com.github.woaigmz:AFrame:0.0.3'
     4：去除 mapping 版本
     compile 'com.github.woaigmz:AFrame:0.0.4'
-
+```
 
 
