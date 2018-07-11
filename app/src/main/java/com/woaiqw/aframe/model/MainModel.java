@@ -24,7 +24,7 @@ public class MainModel implements MainContract.IMainModel {
 
     @Override
     public Observable<List<CardListBean.CardBean>> getCardList() {
-        return AFrameProxy.getInstance().<IApiService>createService().getCardList("111", "0","2").compose(RxUtils.<CardListBean>transform()).map(new Function<CardListBean, List<CardListBean.CardBean>>() {
+        return AFrameProxy.getInstance().<IApiService>createService().getCardList("111", "0","0").compose(RxUtils.<CardListBean>transform()).map(new Function<CardListBean, List<CardListBean.CardBean>>() {
             @Override
             public List<CardListBean.CardBean> apply(CardListBean cardListBean) throws Exception {
                 return cardListBean.getCardList();
