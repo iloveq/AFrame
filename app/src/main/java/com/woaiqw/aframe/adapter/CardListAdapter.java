@@ -42,7 +42,7 @@ public class CardListAdapter extends BaseSmartAdapter<CardListBean.CardBean, Car
             iv = itemView.findViewById(R.id.category_iv);
         }
 
-        public RatioImageView getImage() {
+        private RatioImageView getImage() {
             return iv;
         }
     }
