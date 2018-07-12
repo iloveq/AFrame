@@ -15,11 +15,19 @@ public class AFrameProxy implements IProxy {
     }
 
     private void initRetrofit() {
-
+        validateBinderStatus();
         retrofit = new Retrofit.Builder().client(binder.getOkHttpClient())
                 .addConverterFactory(binder.getConverterFactory())
                 .addCallAdapterFactory(binder.getCallAdapterFactory())
                 .baseUrl(binder.getServerHost()).build();
+    }
+
+    private void validateBinderStatus() {
+        if (binder==null){
+            throw new NullPointerException("binder must be initialized");
+        }
+        if (binder.getApiService() == null || binder.getOkHttpClient() == null || binder.getServerHost() == null || binder.getCallAdapterFactory() == null || binder.getConverterFactory() == null)
+            throw new IllegalStateException("AFrame config error exception");
     }
 
 
