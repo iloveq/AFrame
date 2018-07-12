@@ -1,10 +1,6 @@
 package com.woaiqw.base;
 
-import com.woaiqw.base.network.OkHttpHelper;
-
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by haoran on 2018/6/28.
@@ -20,9 +16,9 @@ public class AFrameProxy implements IProxy {
 
     private void initRetrofit() {
 
-        retrofit = new Retrofit.Builder().client(OkHttpHelper.getInstance().getClient())
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        retrofit = new Retrofit.Builder().client(binder.getOkHttpClient())
+                .addConverterFactory(binder.getConverterFactory())
+                .addCallAdapterFactory(binder.getCallAdapterFactory())
                 .baseUrl(binder.getServerHost()).build();
     }
 
