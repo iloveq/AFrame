@@ -1,7 +1,5 @@
 package com.woaiqw.base;
 
-import com.woaiqw.base.utils.AUtils;
-
 import retrofit2.Retrofit;
 
 import static com.woaiqw.base.utils.AUtils.validateAFrameBinderStatus;
@@ -24,8 +22,6 @@ public class AFrameProxy implements IProxy {
                 .addCallAdapterFactory(binder.getCallAdapterFactory())
                 .baseUrl(binder.getServerHost()).build();
     }
-
-
 
 
     public AFrameBinder getBinder() {
