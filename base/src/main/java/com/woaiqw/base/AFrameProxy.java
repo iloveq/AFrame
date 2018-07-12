@@ -1,6 +1,10 @@
 package com.woaiqw.base;
 
+import com.woaiqw.base.utils.AUtils;
+
 import retrofit2.Retrofit;
+
+import static com.woaiqw.base.utils.AUtils.validateAFrameBinderStatus;
 
 /**
  * Created by haoran on 2018/6/28.
@@ -15,20 +19,13 @@ public class AFrameProxy implements IProxy {
     }
 
     private void initRetrofit() {
-        validateBinderStatus();
         retrofit = new Retrofit.Builder().client(binder.getOkHttpClient())
                 .addConverterFactory(binder.getConverterFactory())
                 .addCallAdapterFactory(binder.getCallAdapterFactory())
                 .baseUrl(binder.getServerHost()).build();
     }
 
-    private void validateBinderStatus() {
-        if (binder==null){
-            throw new NullPointerException("binder must be initialized");
-        }
-        if (binder.getApiService() == null || binder.getOkHttpClient() == null || binder.getServerHost() == null || binder.getCallAdapterFactory() == null || binder.getConverterFactory() == null)
-            throw new IllegalStateException("AFrame config error exception");
-    }
+
 
 
     public AFrameBinder getBinder() {
@@ -47,6 +44,7 @@ public class AFrameProxy implements IProxy {
     @Override
     public void initAFrame(AFrameBinder binder) {
         this.binder = binder;
+        validateAFrameBinderStatus(binder);
         initRetrofit();
     }
 
