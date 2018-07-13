@@ -1,6 +1,63 @@
 # AFrame
+# 最新0.0.5
+ root ：
+```
+    repositories {
+        //google()
+        //jcenter()
+        maven { url "https://jitpack.io" }
+    }
+```
+ app ：  
+```
+    compile 'com.github.woaigmz:AFrame:0.0.5'
+    //要使用AFrame的BaseActivity系列的话别忘了添加butterknife
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    
+```
+### 更新说明：
+    提供更多接口：
+    ```
+         AFrameProxy.getInstance().initAFrame(new AFrameBinder() {
+            @Override
+            public Class getApiService() {
+                return IApiService.class;
+            }
 
-### 项目介绍 ：
+            @Override
+            public OkHttpClient getOkHttpClient() {
+                return OkHttpHelper.getInstance().getClient();
+            }
+
+            @Override
+            public String getServerHost() {
+                return "http://118.89.233.211:3000/api/";
+            }
+
+
+            @Override
+            public Converter.Factory getConverterFactory() {
+                return GsonConverterFactory.create();
+            }
+
+            @Override
+            public CallAdapter.Factory getCallAdapterFactory() {
+                return RxJava2CallAdapterFactory.create();
+            }
+        });
+    ```
+    AFrameProxy-校验binder：
+    ```
+         @Override
+        public void initAFrame(AFrameBinder binder) {
+            this.binder = binder;
+            validateAFrameBinderStatus(binder);
+            initRetrofit();
+        }
+
+    ```
+    
+### 项目介绍 （ 基于 0.0.4 ） ：
 https://www.jianshu.com/p/62f33de16522
 
 建议直接引用base-module，有bug方便修改(慎用)，谢谢大家关注，欢迎fork，issues ：)
@@ -117,6 +174,8 @@ public class MainModel implements MainContract.IMainModel {
     compile 'com.github.woaigmz:AFrame:0.0.3'
     4：去除 mapping 版本
     compile 'com.github.woaigmz:AFrame:0.0.4'
+    5：提供外层接口 版本
+    compile 'com.github.woaigmz:AFrame:0.0.5'
 ```
 
 
