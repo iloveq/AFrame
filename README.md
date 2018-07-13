@@ -16,8 +16,9 @@
     
 ```
 ### 更新说明：
-    提供更多接口：
-    ```
+提供更多接口：
+   
+```
          AFrameProxy.getInstance().initAFrame(new AFrameBinder() {
             @Override
             public Class getApiService() {
@@ -45,9 +46,10 @@
                 return RxJava2CallAdapterFactory.create();
             }
         });
-    ```
-    AFrameProxy-校验binder：
-    ```
+```
+AFrameProxy-校验binder：
+    
+```
          @Override
         public void initAFrame(AFrameBinder binder) {
             this.binder = binder;
@@ -55,7 +57,7 @@
             initRetrofit();
         }
 
-    ```
+ ```
     
 ### 项目介绍 （ 基于 0.0.4 ） ：
 https://www.jianshu.com/p/62f33de16522
