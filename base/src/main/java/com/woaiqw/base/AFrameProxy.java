@@ -17,10 +17,12 @@ public class AFrameProxy implements IProxy {
     }
 
     private void initRetrofit() {
+
         retrofit = new Retrofit.Builder().client(binder.getOkHttpClient())
                 .addConverterFactory(binder.getConverterFactory())
                 .addCallAdapterFactory(binder.getCallAdapterFactory())
                 .baseUrl(binder.getServerHost()).build();
+
     }
 
 
@@ -39,8 +41,8 @@ public class AFrameProxy implements IProxy {
 
     @Override
     public void initAFrame(AFrameBinder binder) {
-        this.binder = binder;
         validateAFrameBinderStatus(binder);
+        this.binder = binder;
         initRetrofit();
     }
 
