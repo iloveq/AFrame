@@ -3,7 +3,6 @@ package com.woaiqw.base;
 import retrofit2.Retrofit;
 
 import static com.woaiqw.base.utils.AUtils.validateAFrameBinderStatus;
-import static com.woaiqw.base.utils.AUtils.validateServiceInterface;
 
 
 /**
