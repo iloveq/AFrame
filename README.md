@@ -1,5 +1,5 @@
 # AFrame
-# 最新0.0.5
+# 最新0.0.6
  root ：
 ```
     repositories {
@@ -10,12 +10,21 @@
 ```
  app ：  
 ```
-    compile 'com.github.woaigmz:AFrame:0.0.5'
+    compile 'com.github.woaigmz:AFrame:0.0.6'
     //要使用AFrame的BaseActivity系列的话别忘了添加butterknife
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     
 ```
-### 更新说明：
+### 更新说明
+(0.0.6)：
+增加了 image 加载的工具,Serialize的序列化工具：
+使用 GlideAppModule, 图片加载性能体验更好
+```
+    ImageLoader.loadImage(myViewHolder.getImage(), cardBean.getImgurl());
+
+```
+
+(0.0.5)：
 提供更多接口：
    
 ```
