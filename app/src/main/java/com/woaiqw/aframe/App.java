@@ -4,6 +4,7 @@ import com.woaiqw.base.AFrameBinder;
 import com.woaiqw.base.AFrameProxy;
 import com.woaiqw.base.common.BaseApp;
 import com.woaiqw.base.network.OkHttpHelper;
+import com.woaiqw.base.utils.FileHelper;
 
 import okhttp3.OkHttpClient;
 import retrofit2.CallAdapter;
@@ -46,5 +47,6 @@ public class App extends BaseApp {
                 return RxJava2CallAdapterFactory.create();
             }
         });
+        FileHelper.initialize(this);
     }
 }
