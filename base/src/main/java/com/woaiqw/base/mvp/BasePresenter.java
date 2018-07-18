@@ -51,6 +51,7 @@ public abstract class BasePresenter<T extends IBaseView,M extends IBaseModel> im
         if (!mDisposable.isDisposed())
             mDisposable.dispose();
         mView = null;
+        mModel = null;
     }
 
 

@@ -29,7 +29,7 @@ import android.util.Log;
 public final class NetworkUtils {
 
     private NetworkUtils() {
-        // This utility class is not publicly instantiable
+        throw new IllegalStateException(" cannot to new the Object ");
     }
 
     public static boolean isNetworkConnected(Context context) {
