@@ -38,29 +38,11 @@ public class ImageLoader {
                 return;
             }
         }
-        try {
-            loadImage(context, imageView, imageUrl);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+        loadImage(context, imageView, imageUrl);
 
     }
 
-
-    /**
-     * 直接加载图片(没有占位图等其他处理，仅仅是加载一张图片)
-     *
-     * @param context   Context
-     * @param imageView ImageView
-     * @param imageUrl  图片地址
-     */
-    private static void loadImage(Context context, ImageView imageView, String imageUrl) {
-        GlideApp.with(context)
-                .load(imageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(imageView);
-    }
 
     /**
      * 加载图片，在加载过程中会显示占位图
@@ -78,29 +60,10 @@ public class ImageLoader {
                 return;
             }
         }
-        try {
-            loadImageWithPlaceHolder(context, imageView, imageUrl, placeholderRes, errorRes);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        loadImageWithPlaceHolder(context, imageView, imageUrl, placeholderRes, errorRes);
+
     }
 
-    /**
-     * 加载图片，在加载过程中会显示占位图，失败也会显示占位图
-     *
-     * @param context   Context
-     * @param imageView ImageView
-     * @param imageUrl  图片地址
-     */
-    private static void loadImageWithPlaceHolder(Context context, ImageView imageView, String imageUrl, @DrawableRes int placeholderRes, @DrawableRes int errorRes) {
-        GlideApp.with(context)
-                .load(imageUrl)
-                .placeholder(placeholderRes)
-                .error(errorRes)
-                .dontAnimate()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imageView);
-    }
 
     /**
      * 加载圆形图片
@@ -118,12 +81,49 @@ public class ImageLoader {
                 return;
             }
         }
+        loadCircleImage(context, imageView, imageUrl);
+
+    }
+
+
+    /**
+     * 直接加载图片(没有占位图等其他处理，仅仅是加载一张图片)
+     *
+     * @param context   Context
+     * @param imageView ImageView
+     * @param imageUrl  图片地址
+     */
+    public static void loadImage(Context context, ImageView imageView, String imageUrl) {
         try {
-            loadCircleImage(context, imageView, imageUrl);
+            GlideApp.with(context)
+                    .load(imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(imageView);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+
+    /**
+     * 加载图片，在加载过程中会显示占位图，失败也会显示占位图
+     *
+     * @param context   Context
+     * @param imageView ImageView
+     * @param imageUrl  图片地址
+     */
+    public static void loadImageWithPlaceHolder(Context context, ImageView imageView, String imageUrl, @DrawableRes int placeholderRes, @DrawableRes int errorRes) {
+        try {
+            GlideApp.with(context)
+                    .load(imageUrl)
+                    .placeholder(placeholderRes)
+                    .error(errorRes)
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -133,13 +133,17 @@ public class ImageLoader {
      * @param imageView ImageView
      * @param imageUrl  图片地址
      */
-    private static void loadCircleImage(Context context, ImageView imageView, String imageUrl) {
-        GlideApp.with(context)
-                .load(imageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .dontAnimate()
-                .transform(new CircleImageTransform())
-                .into(imageView);
+    public static void loadCircleImage(Context context, ImageView imageView, String imageUrl) {
+        try {
+            GlideApp.with(context)
+                    .load(imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .dontAnimate()
+                    .transform(new CircleImageTransform())
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -153,18 +157,26 @@ public class ImageLoader {
      * @param height    图片的高度
      */
     public static void loadImageWithSize(Context context, ImageView imageView, String imageUrl, int width, int height) {
-        GlideApp.with(context)
-                .load(imageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .override(width, height)
-                .into(imageView);
+        try {
+            GlideApp.with(context)
+                    .load(imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(width, height)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void loadImageWithUri(Context context, ImageView imageView, Uri uri) {
-        GlideApp.with(context)
-                .load(uri)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(imageView);
+        try {
+            GlideApp.with(context)
+                    .load(uri)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
