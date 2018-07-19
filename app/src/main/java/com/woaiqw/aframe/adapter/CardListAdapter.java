@@ -18,7 +18,7 @@ public class CardListAdapter extends BaseSmartAdapter<CardListBean.CardBean, Car
 
 
     public CardListAdapter() {
-        super(R.layout.item_category_list);
+        super(R.layout.item_card_list);
     }
 
     @Override

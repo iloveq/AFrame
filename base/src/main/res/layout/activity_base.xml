@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@null"
     android:orientation="vertical">
 
     <com.woaiqw.base.widget.NetworkStateView 
@@ -14,7 +15,8 @@
     <FrameLayout
         android:id="@+id/fl_activity_child_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@null">
 
     </FrameLayout>
 
