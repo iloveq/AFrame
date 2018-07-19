@@ -1,6 +1,7 @@
 package com.woaiqw.aframe.view.activity;
 
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -12,6 +13,7 @@ import com.woaiqw.aframe.contract.MainContract;
 import com.woaiqw.aframe.presenter.MainPresenter;
 import com.woaiqw.aframe.view.widget.BorderDividerItemDecoration;
 import com.woaiqw.base.common.BaseActivity;
+import com.woaiqw.base.utils.PermissionListener;
 import com.woaiqw.base.utils.ToastUtil;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
     RecyclerView rv;
     MainContract.IMainPresenter presenter;
     private CardListAdapter adapter;
+    private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
 
     @Override
     protected int getLayoutId() {
@@ -40,7 +43,18 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
         presenter = new MainPresenter();
         presenter.onAttach(this);
         rv.setAdapter(adapter);
-        presenter.getCardList();
+        requestPermissions(permissions, new PermissionListener() {
+            @Override
+            public void onGranted() {
+                presenter.getCardList();
+            }
+
+            @Override
+            public void onDenied(List<String> deniedPermissions) {
+                showEmptyDataView();
+            }
+        });
+
     }
 
     @Override
@@ -79,7 +93,7 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
 
     @Override
     public void showCardList(List<CardListBean.CardBean> cardBeanList) {
-        if (adapter!=null)
+        if (adapter != null)
             adapter.replaceData(cardBeanList);
     }
 }

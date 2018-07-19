@@ -24,8 +24,8 @@ public class FileHelper {
     }
 
 
-    File cache;
-    File userCache;
+    private File cache;
+
 
     public static void initialize(Application application) {
 
@@ -35,9 +35,6 @@ public class FileHelper {
             get().cache = application.getCacheDir();
         }
 
-        get().userCache = application.getFilesDir();
-
-
     }
 
     public File getCache() {
@@ -45,7 +42,5 @@ public class FileHelper {
     }
 
 
-    public File getUserCache() {
-        return new File(userCache, "userinfo");
-    }
+
 }

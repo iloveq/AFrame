@@ -2,6 +2,8 @@ package com.woaiqw.base.common;
 
 import android.app.Application;
 
+import com.woaiqw.base.utils.FileHelper;
+
 /**
  * Created by haoran on 2018/5/11.
  */
@@ -18,6 +20,7 @@ public class BaseApp extends Application {
     public void onCreate() {
         super.onCreate();
         baseApp = this;
+        FileHelper.initialize(this  );
     }
 
     @Override
