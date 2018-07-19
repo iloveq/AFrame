@@ -1,5 +1,5 @@
 # AFrame
-# 最新0.0.6
+# 最新0.0.7
  root ：
 ```
     repositories {
@@ -10,12 +10,17 @@
 ```
  app ：  
 ```
-    compile 'com.github.woaigmz:AFrame:0.0.6'
+    compile 'com.github.woaigmz:AFrame:0.0.7'
     //要使用AFrame的BaseActivity系列的话别忘了添加butterknife
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     
 ```
 ### 更新说明
+(0.0.7)：
+    移动 FileHelper 到 BaseApp 里
+    移动 权限声明到 BaseApp 里
+
+
 (0.0.6)：
 增加了 image 加载的工具,Serialize的序列化工具：
 使用 GlideAppModule, 图片加载性能体验更好
