@@ -22,29 +22,25 @@ public class CardListAdapter extends BaseSmartAdapter<CardListBean.CardBean, Car
     }
 
     @Override
-    protected void convert(MyViewHolder myViewHolder, CardListBean.CardBean cardBean) {
-        int position = myViewHolder.getLayoutPosition();
-        if (position % 2 == 0) {
-            myViewHolder.getImage().setImageRatio(0.7f);
-        } else {
-            myViewHolder.getImage().setImageRatio(0.6f);
-        }
-        // 图片
-        if (!TextUtils.isEmpty(cardBean.getImgurl())) {
-            ImageLoader.loadImage(myViewHolder.getImage(), cardBean.getImgurl());
-        }
+    protected void convert(MyViewHolder holder, CardListBean.CardBean cardBean) {
+
+        int position = holder.getLayoutPosition();
+        holder.iv.setImageRatio(position % 2 == 0 ? 0.7f : 0.6f);
+        if (!TextUtils.isEmpty(cardBean.getImgurl()))
+            // 加载图片
+            ImageLoader.loadImage(holder.iv, cardBean.getImgurl());
+
     }
 
     static class MyViewHolder extends BaseViewHolder {
+
         private RatioImageView iv;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            iv = itemView.findViewById(R.id.category_iv);
+            iv = getView(R.id.category_iv);
         }
 
-        private RatioImageView getImage() {
-            return iv;
-        }
     }
+
 }
