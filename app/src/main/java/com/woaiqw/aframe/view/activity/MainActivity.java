@@ -3,8 +3,12 @@ package com.woaiqw.aframe.view.activity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.MessageQueue;
+import android.os.SystemClock;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 
 import com.woaiqw.aframe.R;
 import com.woaiqw.aframe.adapter.CardListAdapter;
@@ -55,6 +59,20 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        final long time = SystemClock.uptimeMillis();
+        super.onResume();
+        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+            @Override
+            public boolean queueIdle() {
+                // on Measure() -> onDraw() 耗时
+                Log.i(MainActivity.this.getClass().getSimpleName(), "onCreate -> idle : " + (SystemClock.uptimeMillis() - time));
+                return false;
+            }
+        });
     }
 
     @Override
