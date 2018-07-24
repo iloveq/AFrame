@@ -30,7 +30,7 @@ public final class RxUtils {
     public static class GsonFactoryFunc<T> implements Function<BaseResult<T>, T> {
 
         @Override
-        public T apply(BaseResult<T> tBaseResult) throws Exception {
+        public T apply(BaseResult<T> tBaseResult) {
             if (!tBaseResult.isSuccess())
                 throw new ApiException(tBaseResult.getCode(),tBaseResult.getMsg());
             return tBaseResult.getData();
