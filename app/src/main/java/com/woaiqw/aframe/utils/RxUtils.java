@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 public final class RxUtils {
 
     private RxUtils() {
+        throw new IllegalStateException(" cannot new this object ");
     }
 
 
