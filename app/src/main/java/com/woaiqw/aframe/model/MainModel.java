@@ -10,7 +10,6 @@ import com.woaiqw.base.mvp.IBaseModel;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 
 /**
  * Created by haoran on 2018/6/28.
@@ -24,11 +23,6 @@ public class MainModel implements MainContract.IMainModel {
 
     @Override
     public Observable<List<CardListBean.CardBean>> getCardList() {
-        return AFrameProxy.getInstance().<IApiService>createService().getCardList("111", "0","0").compose(RxUtils.<CardListBean>transform()).map(new Function<CardListBean, List<CardListBean.CardBean>>() {
-            @Override
-            public List<CardListBean.CardBean> apply(CardListBean cardListBean) throws Exception {
-                return cardListBean.getCardList();
-            }
-        });
+        return AFrameProxy.getInstance().<IApiService>createService().getCardList("111", "0","0").compose(RxUtils.transform()).map(CardListBean::getCardList);
     }
 }

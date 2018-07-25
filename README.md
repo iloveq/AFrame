@@ -16,14 +16,22 @@
     
 ```
 ### 更新说明
+
 (0.0.7)：
+
     移动 FileHelper 到 BaseApp 里
     移动 权限声明到 BaseApp 里
+    封装 ImageLoader 基于 Glide4+ ，GlideModule
 
 
 (0.0.6)：
+```
 增加了 image 加载的工具,Serialize的序列化工具：
 使用 GlideAppModule, 图片加载性能体验更好
+```
+
+ImageLoader使用方法：
+
 ```
     ImageLoader.loadImage(myViewHolder.getImage(), cardBean.getImgurl());
 
