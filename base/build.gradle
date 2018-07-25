@@ -27,7 +27,7 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.1.12'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
     //黄油刀
-    compile 'com.jakewharton:butterknife:8.8.1'
+    compile 'com.jakewharton:butterknife:8.5.1'
     //network
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
