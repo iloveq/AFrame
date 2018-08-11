@@ -19,6 +19,7 @@ import com.woaiqw.aframe.view.widget.BorderDividerItemDecoration;
 import com.woaiqw.base.common.BaseActivity;
 import com.woaiqw.base.utils.PermissionListener;
 import com.woaiqw.base.utils.ToastUtil;
+import com.woaiqw.base.widget.NetworkStateView;
 
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
 
     @BindView(R.id.rv)
     RecyclerView rv;
+    @BindView(R.id.nsv)
+    NetworkStateView nsv;
     MainContract.IMainPresenter presenter;
     private CardListAdapter adapter;
     private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -39,6 +42,7 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
+        nsv.setOnRetryClickListener(this);
         BorderDividerItemDecoration itemDecoration = new BorderDividerItemDecoration(this.getResources().getDimensionPixelOffset(R.dimen.border_divider_height), this.getResources().getDimensionPixelOffset(R.dimen.border_padding_spans));
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rv.setLayoutManager(staggeredGridLayoutManager);
@@ -81,37 +85,37 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
         presenter.onDetach();
     }
 
-    @Override
-    public void onNetworkViewRefresh() {
-        super.onNetworkViewRefresh();
-        ToastUtil.showShortToast("重新请求中...");
-        presenter.getCardList();
-    }
 
     @Override
     public void showLoading() {
-        showLoadingView();
+        nsv.showLoading();
     }
 
     @Override
     public void hideLoading() {
-        showContentView();
+        nsv.showSuccess();
     }
 
     @Override
     public void onError(String message) {
         ToastUtil.showShortToast(message);
-        showErrorView();
+        nsv.showError();
     }
 
     @Override
     public void showEmptyDataView() {
-        showEmptyView();
+        nsv.showEmpty();
     }
 
     @Override
     public void showCardList(List<CardListBean.CardBean> cardBeanList) {
         if (adapter != null)
             adapter.replaceData(cardBeanList);
+    }
+
+    @Override
+    public void onRefresh() {
+        ToastUtil.showShortToast("重新请求中...");
+        presenter.getCardList();
     }
 }

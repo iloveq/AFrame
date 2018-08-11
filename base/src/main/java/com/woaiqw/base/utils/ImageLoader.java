@@ -117,7 +117,7 @@ public class ImageLoader {
             GlideApp.with(context)
                     .load(imageUrl)
                     .placeholder(placeholderRes)
-                    .error(errorRes)
+                    .error(errorRes==0?placeholderRes:errorRes)
                     .dontAnimate()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView);
