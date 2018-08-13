@@ -1,25 +1,12 @@
 package com.woaiqw.base.common;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
 
-import com.woaiqw.base.R;
 import com.woaiqw.base.utils.ActivityUtils;
-import com.woaiqw.base.utils.PermissionListener;
-import com.woaiqw.base.utils.ProgressDialogUtils;
-import com.woaiqw.base.widget.NetworkStateView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +14,18 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.woaiqw.base.utils.PermissionUtils.CODE_REQUEST_PERMISSION;
+import static com.woaiqw.base.utils.PermissionUtils.mPermissionListener;
+
 
 /**
  * Created by haoran on 2017/4/17.
  * Activity基类
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements NetworkStateView.OnRetryClickListener {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private Unbinder unbinder;
-    private static PermissionListener mPermissionListener;
-    private static final int CODE_REQUEST_PERMISSION = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,34 +40,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkS
 
     protected abstract void afterCreate(Bundle savedInstanceState);
 
-
-    /**
-     * 申请权限
-     *
-     * @param permissions 需要申请的权限(数组)
-     * @param listener    权限回调接口
-     */
-    public static void requestPermissions(String[] permissions, PermissionListener listener) {
-        Activity activity = ActivityUtils.getTopActivity();
-        if (null == activity) {
-            return;
-        }
-
-        mPermissionListener = listener;
-        List<String> permissionList = new ArrayList<>();
-        for (String permission : permissions) {
-            //权限没有授权
-            if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
-                permissionList.add(permission);
-            }
-        }
-
-        if (!permissionList.isEmpty()) {
-            ActivityCompat.requestPermissions(activity, permissionList.toArray(new String[permissionList.size()]), CODE_REQUEST_PERMISSION);
-        } else {
-            mPermissionListener.onGranted();
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

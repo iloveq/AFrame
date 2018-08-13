@@ -18,6 +18,7 @@ import com.woaiqw.aframe.presenter.MainPresenter;
 import com.woaiqw.aframe.view.widget.BorderDividerItemDecoration;
 import com.woaiqw.base.common.BaseActivity;
 import com.woaiqw.base.utils.PermissionListener;
+import com.woaiqw.base.utils.PermissionUtils;
 import com.woaiqw.base.utils.ToastUtil;
 import com.woaiqw.base.widget.NetworkStateView;
 
@@ -25,7 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements MainContract.IMainView {
+public class MainActivity extends BaseActivity implements MainContract.IMainView, NetworkStateView.OnRetryClickListener {
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -51,7 +52,7 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
         presenter = new MainPresenter();
         presenter.onAttach(this);
         rv.setAdapter(adapter);
-        requestPermissions(permissions, new PermissionListener() {
+        PermissionUtils.requestPermissions(permissions, new PermissionListener() {
             @Override
             public void onGranted() {
                 presenter.getCardList();

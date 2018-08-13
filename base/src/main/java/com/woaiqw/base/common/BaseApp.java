@@ -20,7 +20,7 @@ public class BaseApp extends Application {
     public void onCreate() {
         super.onCreate();
         baseApp = this;
-        FileHelper.initialize(this  );
+        FileHelper.initialize(this);
     }
 
     @Override

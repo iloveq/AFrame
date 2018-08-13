@@ -1,5 +1,6 @@
 # AFrame
-# 最新0.0.7
+# 最新0.0.9
+ //分离了 BaseActivity 和 BaseFragment 的 职责
  root ：
 ```
     repositories {
