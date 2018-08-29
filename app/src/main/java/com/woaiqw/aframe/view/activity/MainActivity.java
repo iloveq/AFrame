@@ -70,13 +70,10 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
     protected void onResume() {
         final long time = SystemClock.uptimeMillis();
         super.onResume();
-        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
-            @Override
-            public boolean queueIdle() {
-                // on Measure() -> onDraw() 耗时
-                Log.i(MainActivity.this.getClass().getSimpleName(), "onCreate -> idle : " + (SystemClock.uptimeMillis() - time));
-                return false;
-            }
+        Looper.myQueue().addIdleHandler(() -> {
+            // on Measure() -> onDraw() 耗时
+            Log.i(MainActivity.this.getClass().getSimpleName(), "onCreate -> idle : " + (SystemClock.uptimeMillis() - time));
+            return false;
         });
     }
 
