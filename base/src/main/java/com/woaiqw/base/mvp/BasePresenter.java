@@ -12,19 +12,19 @@ import io.reactivex.disposables.CompositeDisposable;
 public abstract class BasePresenter<T extends IBaseView, M extends IBaseModel> implements IPresenter<T> {
 
 
-    protected T mView;
-    protected M mModel;
+    protected T view;
+    protected M model;
 
-    protected CompositeDisposable mDisposable;
+    protected CompositeDisposable disposable;
 
     public BasePresenter() {
-        this.mModel = bindModel();
-        mDisposable = new CompositeDisposable();
+        this.model = bindModel();
+        disposable = new CompositeDisposable();
     }
 
 
     public boolean isViewAttached() {
-        return mView != null;
+        return view != null;
     }
 
 
@@ -34,8 +34,8 @@ public abstract class BasePresenter<T extends IBaseView, M extends IBaseModel> i
 
     @Override
     public void onAttach(T t) {
-        mView = t;
-        if (mModel == null) {
+        view = t;
+        if (model == null) {
             throw new NullPointerException("model没有绑定 不能使用");
         }
     }
@@ -48,21 +48,19 @@ public abstract class BasePresenter<T extends IBaseView, M extends IBaseModel> i
     private M bindModel() {
         Type[] params = ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments();
         try {
-            mModel = (M) ((Class) params[1]).newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            model = (M) ((Class) params[1]).newInstance();
+        } catch (Exception e) {
+            model = null;
         }
-        return mModel;
+        return model;
     }
 
     @Override
     public void onDetach() {
-        if (!mDisposable.isDisposed())
-            mDisposable.dispose();
-        mView = null;
-        mModel = null;
+        if (!disposable.isDisposed())
+            disposable.dispose();
+        view = null;
+        model = null;
     }
 
 
