@@ -26,7 +26,5 @@ public class BaseApp extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        System.gc();
-        System.runFinalization();
     }
 }

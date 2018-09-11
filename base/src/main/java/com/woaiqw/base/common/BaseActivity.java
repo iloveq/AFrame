@@ -37,8 +37,6 @@ public abstract class BaseActivity extends CommonActivity {
         super.onDestroy();
         unbinder.unbind();
         ActivityUtils.removeActivity(this);
-        //提示 jvm 回收，具体看 jvm 自身
-        System.gc();
     }
 
 

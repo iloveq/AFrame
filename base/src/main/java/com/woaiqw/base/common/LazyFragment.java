@@ -13,7 +13,7 @@ import android.view.View;
 public abstract class LazyFragment extends Fragment {
 
     private Bundle savedInstanceState;
-    private boolean isInit = false;//真正要显示的View是否已经被初始化（正常加载）
+    private boolean isInit = false;
     private boolean isVisibleToUser;
 
     @Override
@@ -21,7 +21,7 @@ public abstract class LazyFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         this.isVisibleToUser = isVisibleToUser;
         View root = getView();
-        //模拟生命周期
+
         if (isVisibleToUser && !isInit && root != null) {
             onViewCreatedLazy(savedInstanceState);
             isInit = true;
@@ -40,7 +40,6 @@ public abstract class LazyFragment extends Fragment {
     @Deprecated
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //自定义生命周期取消onCreate , 模拟Lazy生命周期
         if (isVisibleToUser && !isInit) {
             this.savedInstanceState = savedInstanceState;
             onViewCreatedLazy(savedInstanceState);

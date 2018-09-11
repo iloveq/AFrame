@@ -5,6 +5,7 @@ import android.Manifest;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -23,6 +24,8 @@ import com.woaiqw.base.widget.NetworkStateView;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class MainActivity extends PermissionActivity implements MainContract.IMainView, NetworkStateView.OnRetryClickListener {
 
@@ -33,14 +36,18 @@ public class MainActivity extends PermissionActivity implements MainContract.IMa
     MainContract.IMainPresenter presenter;
     private CardListAdapter adapter;
     private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+    private Unbinder unbinder;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_main;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        unbinder = ButterKnife.bind(this);
+        afterCreate();
     }
 
-    @Override
-    protected void afterCreate(Bundle savedInstanceState) {
+
+    private void afterCreate() {
         nsv.setOnRetryClickListener(this);
         BorderDividerItemDecoration itemDecoration = new BorderDividerItemDecoration(this.getResources().getDimensionPixelOffset(R.dimen.border_divider_height), this.getResources().getDimensionPixelOffset(R.dimen.border_padding_spans));
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -78,6 +85,7 @@ public class MainActivity extends PermissionActivity implements MainContract.IMa
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbinder.unbind();
         presenter.onDetach();
     }
 
