@@ -14,9 +14,6 @@ import com.woaiqw.base.utils.PermissionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 
 /**
  * Created by haoran on 2017/4/17.
@@ -25,22 +22,16 @@ import butterknife.Unbinder;
 
 public abstract class PermissionActivity extends CommonActivity {
 
-    private Unbinder unbinder;
+
     private static final int CODE_REQUEST_PERMISSION = 1;
     private PermissionListener mPermissionListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
-        unbinder = ButterKnife.bind(this);
         ActivityUtils.addActivity(this);
-        afterCreate(savedInstanceState);
     }
 
-    protected abstract int getLayoutId();
-
-    protected abstract void afterCreate(Bundle savedInstanceState);
 
     /**
      * 申请权限
@@ -50,13 +41,16 @@ public abstract class PermissionActivity extends CommonActivity {
      */
     public void requestPermissions(String[] permissions, PermissionListener listener) {
         Activity activity = ActivityUtils.getTopActivity();
+
         if (null == activity) {
             return;
         }
+
         mPermissionListener = listener;
+
         List<String> permissionList = new ArrayList<>();
+
         for (String permission : permissions) {
-            //权限没有授权
             if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
                 permissionList.add(permission);
             }
@@ -101,12 +95,9 @@ public abstract class PermissionActivity extends CommonActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
         if (mPermissionListener != null)
             mPermissionListener = null;
         ActivityUtils.removeActivity(this);
-        //提示 jvm 回收，具体看 jvm 自身
-        System.gc();
     }
 
 
