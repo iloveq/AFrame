@@ -8,12 +8,8 @@ import com.woaiqw.base.mvp.BasePresenter;
  * Created by haoran on 2018/6/28.
  */
 
-public class MainPresenter extends BasePresenter<MainContract.IMainView, MainContract.IMainModel> implements MainContract.IMainPresenter {
+public class MainPresenter extends BasePresenter<MainContract.IMainView, MainModel> implements MainContract.IMainPresenter {
 
-    @Override
-    public MainContract.IMainModel bindModel() {
-        return (MainContract.IMainModel) MainModel.newInstance();
-    }
 
     @Override
     public void getCardList() {
@@ -28,4 +24,5 @@ public class MainPresenter extends BasePresenter<MainContract.IMainView, MainCon
             }
         }, throwable -> mView.onError(throwable.getMessage())));
     }
+
 }

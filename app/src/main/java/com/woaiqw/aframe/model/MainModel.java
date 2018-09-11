@@ -5,7 +5,6 @@ import com.woaiqw.aframe.bean.CardListBean;
 import com.woaiqw.aframe.contract.MainContract;
 import com.woaiqw.aframe.utils.RxUtils;
 import com.woaiqw.base.AFrameProxy;
-import com.woaiqw.base.mvp.IBaseModel;
 
 import java.util.List;
 
@@ -17,12 +16,8 @@ import io.reactivex.Observable;
 
 public class MainModel implements MainContract.IMainModel {
 
-    public static IBaseModel newInstance() {
-        return new MainModel();
-    }
-
     @Override
     public Observable<List<CardListBean.CardBean>> getCardList() {
-        return AFrameProxy.getInstance().<IApiService>createService().getCardList("111", "0","0").compose(RxUtils.transform()).map(CardListBean::getCardList);
+        return AFrameProxy.getInstance().<IApiService>createService().getCardList("111", "0", "0").compose(RxUtils.transform()).map(CardListBean::getCardList);
     }
 }

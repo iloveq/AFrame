@@ -1,12 +1,15 @@
 package com.woaiqw.base.mvp;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by haoran on 2017/10/30.
  */
 
-public abstract class BasePresenter<T extends IBaseView,M extends IBaseModel> implements IPresenter<T> {
+public abstract class BasePresenter<T extends IBaseView, M extends IBaseModel> implements IPresenter<T> {
 
 
     protected T mView;
@@ -18,8 +21,6 @@ public abstract class BasePresenter<T extends IBaseView,M extends IBaseModel> im
         this.mModel = bindModel();
         mDisposable = new CompositeDisposable();
     }
-
-
 
 
     public boolean isViewAttached() {
@@ -44,7 +45,17 @@ public abstract class BasePresenter<T extends IBaseView,M extends IBaseModel> im
      *
      * @return presenter持有的Model引用
      */
-    public abstract M bindModel();
+    private M bindModel() {
+        Type[] params = ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments();
+        try {
+            mModel = (M) ((Class) params[1]).newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return mModel;
+    }
 
     @Override
     public void onDetach() {
