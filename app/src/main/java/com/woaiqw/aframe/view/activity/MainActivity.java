@@ -18,7 +18,7 @@ import com.woaiqw.aframe.presenter.MainPresenter;
 import com.woaiqw.aframe.view.widget.BorderDividerItemDecoration;
 import com.woaiqw.base.common.PermissionActivity;
 import com.woaiqw.base.utils.PermissionListener;
-import com.woaiqw.base.utils.ToastUtil;
+import com.woaiqw.base.utils.ToastUtils;
 import com.woaiqw.base.widget.NetworkStateView;
 
 import java.util.List;
@@ -102,7 +102,7 @@ public class MainActivity extends PermissionActivity implements MainContract.IMa
 
     @Override
     public void onError(String message) {
-        ToastUtil.showShortToast(message);
+        ToastUtils.showShort(message);
         nsv.showError();
     }
 
@@ -119,7 +119,7 @@ public class MainActivity extends PermissionActivity implements MainContract.IMa
 
     @Override
     public void onRefresh() {
-        ToastUtil.showShortToast("重新请求中...");
+        ToastUtils.showShort("重新请求中...");
         presenter.getCardList();
     }
 }
