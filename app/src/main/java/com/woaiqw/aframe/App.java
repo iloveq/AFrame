@@ -1,9 +1,11 @@
 package com.woaiqw.aframe;
 
+import com.woaiqw.aframe.config.SpConstant;
 import com.woaiqw.base.AFrameBinder;
 import com.woaiqw.base.AFrameProxy;
 import com.woaiqw.base.common.BaseApp;
 import com.woaiqw.base.network.OkHttpHelper;
+import com.woaiqw.base.utils.SPUtils;
 
 import okhttp3.OkHttpClient;
 import retrofit2.CallAdapter;
@@ -46,5 +48,6 @@ public class App extends BaseApp {
                 return RxJava2CallAdapterFactory.create();
             }
         });
+        SPUtils.getInstance().put(SpConstant.CONFIG,"test");
     }
 }
