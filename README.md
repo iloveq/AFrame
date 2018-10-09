@@ -1,6 +1,6 @@
 # AFrame
-# 最新0.0.9
- //分离了 BaseActivity 和 BaseFragment 的 职责
+# 最新0.1.4
+ //增加了一些工具类
  root ：
 ```
     repositories {
@@ -11,7 +11,7 @@
 ```
  app ：  
 ```
-    compile 'com.github.woaigmz:AFrame:0.0.7'
+    compile 'com.github.woaigmz:AFrame:0.1.4'
     //要使用AFrame的BaseActivity系列的话别忘了添加butterknife
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     
