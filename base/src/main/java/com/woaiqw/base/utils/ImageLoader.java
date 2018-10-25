@@ -185,10 +185,10 @@ public class ImageLoader {
         }
     }
 
-    public static void loadImageWithSize(Context context, ImageView imageView, Uri file, int width, int height, float scale) {
+    public static void loadImageWithSize(Context context, ImageView imageView, Uri uri, int width, int height, float scale) {
         try {
             GlideApp.with(context)
-                    .load(file)
+                    .load(uri)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .thumbnail(scale == 0 ? defaultScale : scale)
                     .override(width, height)
