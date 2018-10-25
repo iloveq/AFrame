@@ -8,6 +8,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.io.File;
+
 /**
  * Created by haoran on 2017/4/20.
  * 图片加载
@@ -16,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 public class ImageLoader {
 
+    private static float defaultScale = 0.75f;
 
     private ImageLoader() {
         throw new IllegalStateException(" cannot to new the Object ");
@@ -117,7 +120,7 @@ public class ImageLoader {
             GlideApp.with(context)
                     .load(imageUrl)
                     .placeholder(placeholderRes)
-                    .error(errorRes==0?placeholderRes:errorRes)
+                    .error(errorRes == 0 ? placeholderRes : errorRes)
                     .dontAnimate()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView);
@@ -156,11 +159,12 @@ public class ImageLoader {
      * @param width     图片的宽度
      * @param height    图片的高度
      */
-    public static void loadImageWithSize(Context context, ImageView imageView, String imageUrl, int width, int height) {
+    public static void loadImageWithSize(Context context, ImageView imageView, String imageUrl, int width, int height, float scale) {
         try {
             GlideApp.with(context)
                     .load(imageUrl)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .thumbnail(scale == 0 ? defaultScale : scale)
                     .override(width, height)
                     .into(imageView);
         } catch (Exception e) {
@@ -168,10 +172,59 @@ public class ImageLoader {
         }
     }
 
+    public static void loadImageWithSize(Context context, ImageView imageView, File file, int width, int height, float scale) {
+        try {
+            GlideApp.with(context)
+                    .load(file)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .thumbnail(scale == 0 ? defaultScale : scale)
+                    .override(width, height)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadImageWithSize(Context context, ImageView imageView, Uri file, int width, int height, float scale) {
+        try {
+            GlideApp.with(context)
+                    .load(file)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .thumbnail(scale == 0 ? defaultScale : scale)
+                    .override(width, height)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static void loadImageWithUri(Context context, ImageView imageView, Uri uri) {
         try {
             GlideApp.with(context)
                     .load(uri)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadImageWithPath(Context context, ImageView imageView, String path) {
+        try {
+            GlideApp.with(context)
+                    .load(path)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadImageWithFile(Context context, ImageView imageView, File file) {
+        try {
+            GlideApp.with(context)
+                    .load(file)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(imageView);
         } catch (Exception e) {
