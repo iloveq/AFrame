@@ -30,8 +30,8 @@ public abstract class BaseLoadingActivity extends BaseHockActivity implements IB
         if (layoutId != 0) {
             setContentView(R.layout.activity_base_loading);
             FrameLayout contentParent =  findViewById(R.id.fl);
-            child = LayoutInflater.from(this).inflate(layoutId, null);
-            contentParent.addView(child);
+            child = LayoutInflater.from(this).inflate(layoutId,null);
+            contentParent.addView(child,0);
             nsv = new NetworkStateView(this);
             contentParent.addView(nsv,1);
             nsv.setOnRetryClickListener(this);
