@@ -1,10 +1,16 @@
 # AFrame
 # 最近更新
+
 感谢 gankio 的 api
+
 建议直接依赖 base 使用 BaseLoadingActivity 便于修改 NetworkStateView 的 UI
+
 去除 ButterKnife 并不是所有人都喜欢控制反转
+
 Mvp结构调整 IBaseView IBaseLoadingView IBaseLoadingListView ,IBaseView 默认不再拥有方法，增加可扩展性
+
 调整继承树为：  AppComponentActivity - BaseHockActivity(做一些针对当前项目的事情) - BaseActivity - BaseLoadingActivity - BaseLoadingListActivity
+
 
 模板模式减少了之前版本 MainActivity 的代码行数
 
