@@ -26,9 +26,9 @@ public abstract class BaseLoadingActivity extends BaseHockActivity implements IB
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_loading);
         int layoutId = getLayoutId();
         if (layoutId != 0) {
+            setContentView(R.layout.activity_base_loading);
             FrameLayout contentParent =  findViewById(R.id.fl);
             child = LayoutInflater.from(this).inflate(layoutId, null);
             contentParent.addView(child);
