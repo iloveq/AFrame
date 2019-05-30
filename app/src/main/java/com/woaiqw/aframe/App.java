@@ -1,9 +1,9 @@
 package com.woaiqw.aframe;
 
-import com.woaiqw.aframe.config.SpConstant;
+import com.woaiqw.aframe.config.SpConstants;
 import com.woaiqw.base.AFrameBinder;
 import com.woaiqw.base.AFrameProxy;
-import com.woaiqw.base.common.BaseApp;
+import com.woaiqw.base.common.hock.BaseHockApp;
 import com.woaiqw.base.network.OkHttpHelper;
 import com.woaiqw.base.utils.SPUtils;
 
@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by haoran on 2018/5/13.
  */
 
-public class App extends BaseApp {
+public class App extends BaseHockApp {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -34,7 +34,7 @@ public class App extends BaseApp {
 
             @Override
             public String getServerHost() {
-                return "http://118.89.233.211:3000/api/";
+                return "http://gank.io/api/data/";
             }
 
 
@@ -48,6 +48,6 @@ public class App extends BaseApp {
                 return RxJava2CallAdapterFactory.create();
             }
         });
-        SPUtils.getInstance().put(SpConstant.CONFIG,"test");
+        SPUtils.getInstance().put(SpConstants.CONFIG,"test");
     }
 }

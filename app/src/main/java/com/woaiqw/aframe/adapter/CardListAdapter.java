@@ -3,10 +3,11 @@ package com.woaiqw.aframe.adapter;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.woaiqw.adapter.BaseSmartAdapter;
-import com.woaiqw.adapter.BaseViewHolder;
+
+import com.woaiqw.adapter.base.BaseSmartAdapter;
+import com.woaiqw.adapter.holder.BaseViewHolder;
 import com.woaiqw.aframe.R;
-import com.woaiqw.aframe.bean.CardListBean;
+import com.woaiqw.aframe.bean.CardBean;
 import com.woaiqw.aframe.view.widget.RatioImageView;
 import com.woaiqw.base.utils.ImageLoader;
 
@@ -14,7 +15,7 @@ import com.woaiqw.base.utils.ImageLoader;
  * Created by haoran on 2018/6/28.
  */
 
-public class CardListAdapter extends BaseSmartAdapter<CardListBean.CardBean, CardListAdapter.MyViewHolder> {
+public class CardListAdapter extends BaseSmartAdapter<CardBean, CardListAdapter.MyViewHolder> {
 
 
     public CardListAdapter() {
@@ -22,7 +23,7 @@ public class CardListAdapter extends BaseSmartAdapter<CardListBean.CardBean, Car
     }
 
     @Override
-    protected void convert(MyViewHolder holder, CardListBean.CardBean cardBean) {
+    protected void convert(MyViewHolder holder, CardBean cardBean) {
 
         int position = holder.getLayoutPosition();
         holder.iv.setImageRatio(position % 2 == 0 ? 0.7f : 0.6f);

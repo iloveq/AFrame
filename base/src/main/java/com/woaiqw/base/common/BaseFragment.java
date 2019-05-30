@@ -6,8 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import com.woaiqw.base.common.hock.BaseHockFragment;
 
 
 /**
@@ -15,34 +14,20 @@ import butterknife.Unbinder;
  * Fragment基类
  */
 
-public abstract class BaseFragment extends CommonFragment {
-
-    private Unbinder unbinder;
+public abstract class BaseFragment extends BaseHockFragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutId(), container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
+        return inflater.inflate(getLayoutId(), container, false);
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        afterCreate(savedInstanceState);
-    }
-
 
     protected abstract int getLayoutId();
-
-    protected abstract void afterCreate(Bundle savedInstanceState);
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
 }

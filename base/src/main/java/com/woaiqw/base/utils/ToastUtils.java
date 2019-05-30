@@ -27,7 +27,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.woaiqw.base.common.BaseApp;
+import com.woaiqw.base.common.hock.BaseHockApp;
 
 import java.lang.reflect.Field;
 
@@ -210,7 +210,7 @@ public class ToastUtils {
 
     private static void show(final int resId, final int duration) {
         try {
-            CharSequence text = BaseApp.getApplication().getResources().getText(resId);
+            CharSequence text = BaseHockApp.getApplication().getResources().getText(resId);
             show(text, duration);
         } catch (Exception ignore) {
             show(String.valueOf(resId), duration);
@@ -219,7 +219,7 @@ public class ToastUtils {
 
     private static void show(final int resId, final int duration, final Object... args) {
         try {
-            CharSequence text = BaseApp.getApplication().getResources().getText(resId);
+            CharSequence text = BaseHockApp.getApplication().getResources().getText(resId);
             String format = String.format(text.toString(), args);
             show(format, duration);
         } catch (Exception ignore) {
@@ -247,7 +247,7 @@ public class ToastUtils {
             public void run() {
                 cancel();
 
-                sToast = ToastFactory.makeToast(BaseApp.getApplication(), text, duration);
+                sToast = ToastFactory.makeToast(BaseHockApp.getApplication(), text, duration);
 
                 final TextView tvMessage = sToast.getView().findViewById(android.R.id.message);
                 if (sMsgColor != COLOR_DEFAULT) {
@@ -270,7 +270,7 @@ public class ToastUtils {
             @Override
             public void run() {
                 cancel();
-                sToast = ToastFactory.newToast(BaseApp.getApplication());
+                sToast = ToastFactory.newToast(BaseHockApp.getApplication());
                 sToast.setView(view);
                 sToast.setDuration(duration);
                 if (sGravity != -1 || sXOffset != -1 || sYOffset != -1) {
@@ -327,7 +327,7 @@ public class ToastUtils {
 
     private static View getView(@LayoutRes final int layoutId) {
         LayoutInflater inflate =
-                (LayoutInflater) BaseApp.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                (LayoutInflater) BaseHockApp.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //noinspection ConstantConditions
         return inflate.inflate(layoutId, null);
     }
@@ -506,7 +506,7 @@ public class ToastUtils {
             mParams.x = mToast.getXOffset();
             mParams.y = mToast.getYOffset();
 
-            mParams.packageName = BaseApp.getApplication().getPackageName();
+            mParams.packageName = BaseHockApp.getApplication().getPackageName();
 
             try {
                 mWM.addView(mView, mParams);

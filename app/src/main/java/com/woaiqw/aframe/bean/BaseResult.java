@@ -2,6 +2,7 @@ package com.woaiqw.aframe.bean;
 
 import android.text.TextUtils;
 
+import com.google.gson.annotations.SerializedName;
 import com.woaiqw.aframe.utils.ServerCode;
 
 
@@ -11,7 +12,7 @@ import com.woaiqw.aframe.utils.ServerCode;
 
 public class BaseResult<T> {
 
-
+    @SerializedName("results")
     T data;
     String code;
     String message;
@@ -30,6 +31,6 @@ public class BaseResult<T> {
     }
 
     public boolean isSuccess() {
-        return TextUtils.equals(ServerCode.CODE_200,code);
+        return /*TextUtils.equals(ServerCode.CODE_200,code)*/true;
     }
 }

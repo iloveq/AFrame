@@ -10,65 +10,68 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.woaiqw.aframe.R;
 import com.woaiqw.aframe.adapter.CardListAdapter;
-import com.woaiqw.aframe.bean.CardListBean;
+import com.woaiqw.aframe.bean.CardBean;
 import com.woaiqw.aframe.contract.MainContract;
 import com.woaiqw.aframe.presenter.MainPresenter;
 import com.woaiqw.aframe.view.widget.BorderDividerItemDecoration;
-import com.woaiqw.base.common.PermissionActivity;
-import com.woaiqw.base.utils.PermissionListener;
+import com.woaiqw.base.common.BaseLoadingListActivity;
 import com.woaiqw.base.utils.ToastUtils;
-import com.woaiqw.base.widget.NetworkStateView;
+import com.yanzhenjie.permission.AndPermission;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class MainActivity extends PermissionActivity implements MainContract.IMainView, NetworkStateView.OnRetryClickListener {
+public class MainActivity extends BaseLoadingListActivity implements MainContract.IMainView, OnRefreshListener, OnLoadMoreListener {
 
-    @BindView(R.id.rv)
     RecyclerView rv;
-    @BindView(R.id.nsv)
-    NetworkStateView nsv;
+    SmartRefreshLayout srl;
+
     MainContract.IMainPresenter presenter;
     private CardListAdapter adapter;
-    private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-    private Unbinder unbinder;
+    private int currentIndex = 1;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        unbinder = ButterKnife.bind(this);
-        afterCreate();
+        presenter = new MainPresenter();
+        presenter.onAttach(this);
+        AndPermission.with(this)
+                .runtime()
+                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .onGranted(data -> {
+                    try {
+                        presenter.getCardList(currentIndex);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).onDenied(data -> {
+                    ToastUtils.showShort("可能耗费更多流量");
+                    presenter.getCardList(currentIndex);
+                }
+        ).start();
+
     }
 
 
-    private void afterCreate() {
-        nsv.setOnRetryClickListener(this);
-        BorderDividerItemDecoration itemDecoration = new BorderDividerItemDecoration(this.getResources().getDimensionPixelOffset(R.dimen.border_divider_height), this.getResources().getDimensionPixelOffset(R.dimen.border_padding_spans));
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        rv.setLayoutManager(staggeredGridLayoutManager);
-        rv.addItemDecoration(itemDecoration);
-        adapter = new CardListAdapter();
-        presenter = new MainPresenter();
-        presenter.onAttach(this);
-        rv.setAdapter(adapter);
-        requestPermissions(permissions, new PermissionListener() {
-            @Override
-            public void onGranted() {
-                presenter.getCardList();
-            }
-
-            @Override
-            public void onDenied(List<String> deniedPermissions) {
-                showEmptyDataView();
-            }
-        });
-
+    @Override
+    public void reload() {
+        super.reload();
+        currentIndex = 1;
+        presenter.getCardList(currentIndex);
     }
 
     @Override
@@ -85,41 +88,62 @@ public class MainActivity extends PermissionActivity implements MainContract.IMa
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
         presenter.onDetach();
     }
 
+    @Override
+    public void renderPage(Object o) {
+        super.renderPage(o);
+        if (rv == null) {
+            rv = findViewById(R.id.rv);
+            srl = findViewById(R.id.srl);
+            srl.setEnableRefresh(true);
+            srl.setRefreshHeader(new ClassicsHeader(this));
+            srl.setRefreshFooter(new ClassicsFooter(this));
+            srl.setOnRefreshListener(this);
+            srl.setOnLoadMoreListener(this);
+            BorderDividerItemDecoration itemDecoration = new BorderDividerItemDecoration(
+                    this.getResources().getDimensionPixelOffset(R.dimen.border_divider_height),
+                    this.getResources().getDimensionPixelOffset(R.dimen.border_padding_spans));
+            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
+                    2,
+                    StaggeredGridLayoutManager.VERTICAL);
+            rv.setLayoutManager(staggeredGridLayoutManager);
+            rv.addItemDecoration(itemDecoration);
+            adapter = new CardListAdapter();
+            rv.setAdapter(adapter);
+        }
+        if (o != null) {
+            List<CardBean> cardBeanList = (List<CardBean>) o;
+            if (cardBeanList.isEmpty()) {
+                if (currentIndex == 1) {
+                    showEmpty();
+                } else {
+                    // 没有更多
+                }
+                return;
+            }
+            if (currentIndex == 1) {
+                adapter.replaceData(cardBeanList);
+            } else {
+                adapter.addData(cardBeanList);
+            }
+
+        }
+
+    }
+
 
     @Override
-    public void showLoading() {
-        nsv.showLoading();
+    public void onRefresh(RefreshLayout refreshLayout) {
+        refreshLayout.finishRefresh(800, true);
+        this.reload();
     }
 
     @Override
-    public void hideLoading() {
-        nsv.showSuccess();
+    public void onLoadMore(RefreshLayout refreshLayout) {
+        refreshLayout.finishLoadMore(800);
+        presenter.getCardList(++currentIndex);
     }
 
-    @Override
-    public void onError(String message) {
-        ToastUtils.showShort(message);
-        nsv.showError();
-    }
-
-    @Override
-    public void showEmptyDataView() {
-        nsv.showEmpty();
-    }
-
-    @Override
-    public void showCardList(List<CardListBean.CardBean> cardBeanList) {
-        if (adapter != null)
-            adapter.replaceData(cardBeanList);
-    }
-
-    @Override
-    public void onRefresh() {
-        ToastUtils.showShort("重新请求中...");
-        presenter.getCardList();
-    }
 }

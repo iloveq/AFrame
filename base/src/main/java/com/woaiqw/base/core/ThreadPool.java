@@ -20,7 +20,7 @@ public class ThreadPool {
     private ThreadPool() {
         TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
         int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
-        this.pool = new ThreadPoolExecutor(NUMBER_OF_CORES, NUMBER_OF_CORES * 4, 1L, KEEP_ALIVE_TIME_UNIT, new LinkedBlockingDeque<Runnable>(), new ThreadPoolExecutor.AbortPolicy());
+        this.pool = new ThreadPoolExecutor(NUMBER_OF_CORES, NUMBER_OF_CORES * 4, 1L, KEEP_ALIVE_TIME_UNIT, new LinkedBlockingDeque<Runnable>(NUMBER_OF_CORES * 4), new ThreadPoolExecutor.AbortPolicy());
     }
 
     public ExecutorService getPool() {

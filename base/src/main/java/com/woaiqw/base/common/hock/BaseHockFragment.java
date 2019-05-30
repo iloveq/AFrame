@@ -1,10 +1,10 @@
-package com.woaiqw.base.common;
+package com.woaiqw.base.common.hock;
 
 import android.support.v4.app.Fragment;
 
 /**
  * Created by haoran on 2018/9/11.
  */
-public class CommonFragment extends Fragment {
+public class BaseHockFragment extends Fragment {
 
 }

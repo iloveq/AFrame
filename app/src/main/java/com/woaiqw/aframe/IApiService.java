@@ -1,12 +1,13 @@
 package com.woaiqw.aframe;
 
 import com.woaiqw.aframe.bean.BaseResult;
-import com.woaiqw.aframe.bean.CardListBean;
+import com.woaiqw.aframe.bean.CardBean;
+
+import java.util.List;
 
 import io.reactivex.Observable;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * Created by haoran on 2017/11/2.
@@ -15,9 +16,8 @@ import retrofit2.http.POST;
 public interface IApiService {
 
     //api/getCardList 获取推荐明信片列表
-    @POST("getCardList")
-    @FormUrlEncoded
-    Observable<BaseResult<CardListBean>> getCardList(@Field("name") String name, @Field("page") String page, @Field("max") String max);
+    @GET("福利/{max}/{page}")
+    Observable<BaseResult<List<CardBean>>> getCardList(@Path("page") int pageNum, @Path("max") int pageSize);
 
 }
 

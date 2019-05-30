@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-import com.woaiqw.base.common.BaseApp;
+import com.woaiqw.base.common.hock.BaseHockApp;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ public class SPUtils<T> {
     }
 
     private SPUtils(String spName) {
-        sp = BaseApp.getApplication().getSharedPreferences(spName, Context.MODE_PRIVATE);
+        sp = BaseHockApp.getApplication().getSharedPreferences(spName, Context.MODE_PRIVATE);
     }
 
     /**

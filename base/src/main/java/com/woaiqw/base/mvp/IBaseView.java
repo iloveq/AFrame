@@ -6,13 +6,4 @@ package com.woaiqw.base.mvp;
 
 public interface IBaseView {
 
-
-    void showLoading();
-
-    void hideLoading();
-
-    void onError(String message);
-
-    void showEmptyDataView();
-
 }

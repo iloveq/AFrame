@@ -10,7 +10,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.WindowManager;
 
-import com.woaiqw.base.common.BaseApp;
+import com.woaiqw.base.common.hock.BaseHockApp;
 
 
 /**
@@ -22,7 +22,7 @@ import com.woaiqw.base.common.BaseApp;
 public class UIUtils {
 
     private static Context getContext() {
-        return BaseApp.getApplication();
+        return BaseHockApp.getApplication();
     }
 
     private static Resources getResources() {

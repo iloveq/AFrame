@@ -2,6 +2,7 @@ package com.woaiqw.base.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -104,6 +105,7 @@ public class NetworkStateView extends LinearLayout implements NetworkStateAction
         showSuccess();
     }
 
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -127,6 +129,7 @@ public class NetworkStateView extends LinearLayout implements NetworkStateAction
      */
     @Override
     public void showSuccess() {
+        setBackgroundColor(Color.WHITE);
         mCurrentNetworkState = NetworkState.STATE_SUCCESS;
         showViewByState(mCurrentNetworkState);
     }
@@ -136,6 +139,7 @@ public class NetworkStateView extends LinearLayout implements NetworkStateAction
      */
     @Override
     public void showLoading() {
+        setBackgroundColor(Color.TRANSPARENT);
         mCurrentNetworkState = NetworkState.STATE_LOADING;
         if (null == mLoadingView) {
             mLoadingView = mInflater.inflate(mLoadingViewId, null);
@@ -167,7 +171,7 @@ public class NetworkStateView extends LinearLayout implements NetworkStateAction
                     @Override
                     public void onClick(View view) {
                         if (null != mRefreshListener) {
-                            mRefreshListener.onRefresh();
+                            mRefreshListener.onRetry();
                         }
                     }
                 });
@@ -200,7 +204,7 @@ public class NetworkStateView extends LinearLayout implements NetworkStateAction
                     @Override
                     public void onClick(View view) {
                         if (null != mRefreshListener) {
-                            mRefreshListener.onRefresh();
+                            mRefreshListener.onRetry();
                         }
                     }
                 });
@@ -233,7 +237,7 @@ public class NetworkStateView extends LinearLayout implements NetworkStateAction
                     @Override
                     public void onClick(View view) {
                         if (null != mRefreshListener) {
-                            mRefreshListener.onRefresh();
+                            mRefreshListener.onRetry();
                         }
                     }
                 });
@@ -284,6 +288,6 @@ public class NetworkStateView extends LinearLayout implements NetworkStateAction
     }
 
     public interface OnRetryClickListener {
-        void onRefresh();
+        void onRetry();
     }
 }

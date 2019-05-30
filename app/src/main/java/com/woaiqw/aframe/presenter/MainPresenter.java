@@ -12,17 +12,17 @@ public class MainPresenter extends BasePresenter<MainContract.IMainView, MainMod
 
 
     @Override
-    public void getCardList() {
+    public void getCardList(int pageNum) {
         checkViewAttached();
-        view.showLoading();
-        disposable.add(model.getCardList().subscribe(cardBeanList -> {
-            view.hideLoading();
+        view.showLoading("");
+        disposable.add(model.getCardList(pageNum).subscribe(cardBeanList -> {
+            view.closeLoading();
             if (cardBeanList == null || cardBeanList.size() == 0) {
-                view.showEmptyDataView();
+                view.showEmpty();
             } else {
-                view.showCardList(cardBeanList);
+                view.renderPage(cardBeanList);
             }
-        }, throwable -> view.onError(throwable.getMessage())));
+        }, throwable -> view.showError(throwable.getMessage())));
     }
 
 }
