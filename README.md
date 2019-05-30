@@ -1,21 +1,130 @@
 # AFrame
-# 最新0.1.6
- //增加了一些工具类
- root ：
+# 最近更新
+感谢 gankio 的 api
+建议直接依赖 base 使用 BaseLoadingActivity 便于修改 NetworkStateView 的 UI
+去除 ButterKnife 并不是所有人都喜欢控制反转
+Mvp结构调整 IBaseView IBaseLoadingView IBaseLoadingListView ,IBaseView 默认不再拥有方法，增加可扩展性
+调整继承树为：  AppComponentActivity - BaseHockActivity(做一些针对当前项目的事情) - BaseActivity - BaseLoadingActivity - BaseLoadingListActivity
+
+模板模式减少了之前版本 MainActivity 的代码行数
+
 ```
-    repositories {
-        //google()
-        //jcenter()
-        maven { url "https://jitpack.io" }
+public class MainActivity extends BaseLoadingListActivity implements MainContract.IMainView, OnRefreshListener, OnLoadMoreListener {
+
+    RecyclerView rv;
+    SmartRefreshLayout srl;
+    MainContract.IMainPresenter presenter;
+    private CardListAdapter adapter;
+    private int currentIndex = 1;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter = new MainPresenter();
+        presenter.onAttach(this);
+        AndPermission.with(this)
+                .runtime()
+                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .onGranted(data -> {
+                    try {
+                        presenter.getCardList(currentIndex);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).onDenied(data -> {
+                    ToastUtils.showShort("可能耗费更多流量");
+                    presenter.getCardList(currentIndex);
+                }
+        ).start();
+
+    }
+
+    @Override
+    public void reload() {
+        super.reload();
+        currentIndex = 1;
+        presenter.getCardList(currentIndex);
+    }
+
+    @Override
+    protected void onResume() {
+        final long time = SystemClock.uptimeMillis();
+        super.onResume();
+        Looper.myQueue().addIdleHandler(() -> {
+            // on Measure() -> onDraw() 耗时  ActivityThread.handleResumeActivity 之后会 调用  Looper.myQueue().addIdleHandler(new Idle()) 之前都在 ViewRootImpl.performTravel
+            Log.i(MainActivity.this.getClass().getSimpleName(), "onCreate -> idle : " + (SystemClock.uptimeMillis() - time));
+            return false;
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDetach();
+    }
+
+    @Override
+    public void renderPage(Object o) {
+        super.renderPage(o);
+        if (rv == null) {
+            // 延迟调用 find set 方法
+            rv = findViewById(R.id.rv);
+            srl = findViewById(R.id.srl);
+            srl.setEnableRefresh(true);
+            srl.setRefreshHeader(new ClassicsHeader(this));
+            srl.setRefreshFooter(new ClassicsFooter(this));
+            srl.setOnRefreshListener(this);
+            srl.setOnLoadMoreListener(this);
+            BorderDividerItemDecoration itemDecoration = new BorderDividerItemDecoration(
+                    this.getResources().getDimensionPixelOffset(R.dimen.border_divider_height),
+                    this.getResources().getDimensionPixelOffset(R.dimen.border_padding_spans));
+            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
+                    2,
+                    StaggeredGridLayoutManager.VERTICAL);
+            rv.setLayoutManager(staggeredGridLayoutManager);
+            rv.addItemDecoration(itemDecoration);
+            adapter = new CardListAdapter();
+            rv.setAdapter(adapter);
+        }
+        if (o != null) {
+            List<CardBean> cardBeanList = (List<CardBean>) o;
+            if (cardBeanList.isEmpty()) {
+                if (currentIndex == 1) {
+                    showEmpty();
+                } else {
+                    ToastUtils.showShort("没有更多了666");
+                }
+                return;
+            }
+            // 通过 index 判断 当前状态
+            if (currentIndex == 1) {
+                adapter.replaceData(cardBeanList);
+            } else {
+                adapter.addData(cardBeanList);
+            }
+        }
+    }
+
+    @Override
+    public void onRefresh(RefreshLayout refreshLayout) {
+        refreshLayout.finishRefresh(800, true);
+        this.reload();
+    }
+
+    @Override
+    public void onLoadMore(RefreshLayout refreshLayout) {
+        refreshLayout.finishLoadMore(800);
+        presenter.getCardList(++currentIndex);
+    }
+
+}
 ```
- app ：  
-```
-    compile 'com.github.woaigmz:AFrame:0.1.4'
-    //要使用AFrame的BaseActivity系列的话别忘了添加butterknife
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    
-```
+
 ### 更新说明
 
 (0.0.7)：

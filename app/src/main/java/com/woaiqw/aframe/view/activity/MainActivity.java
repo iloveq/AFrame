@@ -79,7 +79,7 @@ public class MainActivity extends BaseLoadingListActivity implements MainContrac
         final long time = SystemClock.uptimeMillis();
         super.onResume();
         Looper.myQueue().addIdleHandler(() -> {
-            // on Measure() -> onDraw() 耗时
+            // on Measure() -> onDraw() 耗时  ActivityThread.handleResumeActivity 之后会 调用  Looper.myQueue().addIdleHandler(new Idle()) 之前都在 ViewRootImpl.performTravel
             Log.i(MainActivity.this.getClass().getSimpleName(), "onCreate -> idle : " + (SystemClock.uptimeMillis() - time));
             return false;
         });
@@ -95,6 +95,7 @@ public class MainActivity extends BaseLoadingListActivity implements MainContrac
     public void renderPage(Object o) {
         super.renderPage(o);
         if (rv == null) {
+            // 延迟调用 find set 方法
             rv = findViewById(R.id.rv);
             srl = findViewById(R.id.srl);
             srl.setEnableRefresh(true);
@@ -119,10 +120,11 @@ public class MainActivity extends BaseLoadingListActivity implements MainContrac
                 if (currentIndex == 1) {
                     showEmpty();
                 } else {
-                    // 没有更多
+                    ToastUtils.showShort("没有更多了666");
                 }
                 return;
             }
+            // 通过 index 判断 当前状态
             if (currentIndex == 1) {
                 adapter.replaceData(cardBeanList);
             } else {

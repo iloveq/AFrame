@@ -6,6 +6,7 @@ import com.woaiqw.base.utils.FileHelper;
 
 /**
  * Created by haoran on 2018/5/11.
+ * 为了做一些公共操作
  */
 
 public class BaseHockApp extends Application {
