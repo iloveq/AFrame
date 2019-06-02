@@ -2,7 +2,25 @@
 # 最近更新
 
 ```
+version - 0.1.7
+
+Add it in your root build.gradle at the end of repositories:
+
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+	
+Add the dependency
+
+	dependencies {
+	     implementation 'com.github.woaigmz:AFrame:0.1.7'
+	}
+--------------------------------  更新说明   --------------------------
 base 里增加一些库
+
     // 下拉刷新
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
@@ -12,6 +30,9 @@ base 里增加一些库
     compile 'com.github.woaigmz:SmartDiffAdapter:0.3.4'
     // recyclerview
     compile 'com.android.support:recyclerview-v7:27.1.1'
+    
+----------------------------------------------------------------------
+
 ```
 
 感谢 gankio 的 api
