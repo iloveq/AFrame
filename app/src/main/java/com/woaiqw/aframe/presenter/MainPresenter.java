@@ -17,11 +17,7 @@ public class MainPresenter extends BasePresenter<MainContract.IMainView, MainMod
         view.showLoading("");
         disposable.add(model.getCardList(pageNum).subscribe(cardBeanList -> {
             view.closeLoading();
-            if (cardBeanList == null || cardBeanList.size() == 0) {
-                view.showEmpty();
-            } else {
-                view.renderPage(cardBeanList);
-            }
+            view.renderPage(cardBeanList);
         }, throwable -> view.showError(throwable.getMessage())));
     }
 
