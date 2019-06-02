@@ -1,6 +1,19 @@
 # AFrame
 # 最近更新
 
+```
+base 里增加一些库
+    // 下拉刷新
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
+    // 权限动态申请
+    compile 'com.yanzhenjie:permission:2.0.0-rc12'
+    // recyclerview adapter 
+    compile 'com.github.woaigmz:SmartDiffAdapter:0.3.4'
+    // recyclerview
+    compile 'com.android.support:recyclerview-v7:27.1.1'
+```
+
 感谢 gankio 的 api
 
 建议直接依赖 base 使用 BaseLoadingActivity 便于修改 NetworkStateView 的 UI
