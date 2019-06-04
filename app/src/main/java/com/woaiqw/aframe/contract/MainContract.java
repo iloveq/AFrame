@@ -4,6 +4,7 @@ import com.woaiqw.aframe.bean.CardBean;
 import com.woaiqw.base.mvp.IBaseLoadingListView;
 import com.woaiqw.base.mvp.IBaseModel;
 import com.woaiqw.base.mvp.IPresenter;
+import com.woaiqw.base.network.internel.Callback;
 
 import java.util.List;
 
@@ -19,6 +20,10 @@ public interface MainContract {
 
     interface IMainModel extends IBaseModel {
         Observable<List<CardBean>> getCardList(int index);
+    }
+
+    interface IMain1Model extends IBaseModel {
+        void getCardList(int index , Callback callback);
     }
 
     interface IMainPresenter extends IPresenter<IMainView> {

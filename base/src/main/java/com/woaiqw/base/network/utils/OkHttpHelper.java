@@ -1,4 +1,4 @@
-package com.woaiqw.base.network;
+package com.woaiqw.base.network.utils;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

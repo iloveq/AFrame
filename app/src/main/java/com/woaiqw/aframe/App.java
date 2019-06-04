@@ -4,7 +4,10 @@ import com.woaiqw.aframe.config.SpConstants;
 import com.woaiqw.base.AFrameBinder;
 import com.woaiqw.base.AFrameProxy;
 import com.woaiqw.base.common.hock.BaseHockApp;
-import com.woaiqw.base.network.OkHttpHelper;
+import com.woaiqw.base.network.OkHttpAdapter;
+import com.woaiqw.base.network.core.HttpUtils;
+import com.woaiqw.base.network.utils.HttpsUtils;
+import com.woaiqw.base.network.utils.OkHttpHelper;
 import com.woaiqw.base.utils.SPUtils;
 
 import okhttp3.OkHttpClient;
@@ -49,5 +52,8 @@ public class App extends BaseHockApp {
             }
         });
         SPUtils.getInstance().put(SpConstants.CONFIG,"test");
+
+        HttpUtils.get().setAdapter(new OkHttpAdapter());
+
     }
 }
