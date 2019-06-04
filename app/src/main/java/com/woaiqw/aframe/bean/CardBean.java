@@ -11,9 +11,12 @@ public class CardBean {
 
 
         @SerializedName("url")
-        private String imgurl;
-        public String getImgurl() {
-            return imgurl;
+        private String imgUrl;
+        public String getImgUrl() {
+            return imgUrl;
+        }
+        public void setImgUrl(String url){
+            this.imgUrl = url;
         }
 
 

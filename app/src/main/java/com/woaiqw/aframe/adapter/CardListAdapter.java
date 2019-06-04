@@ -27,9 +27,9 @@ public class CardListAdapter extends BaseSmartAdapter<CardBean, CardListAdapter.
 
         int position = holder.getLayoutPosition();
         holder.iv.setImageRatio(position % 2 == 0 ? 0.7f : 0.6f);
-        if (!TextUtils.isEmpty(cardBean.getImgurl()))
+        if (!TextUtils.isEmpty(cardBean.getImgUrl()))
             // 加载图片
-            ImageLoader.loadImage(holder.iv, cardBean.getImgurl());
+            ImageLoader.loadImage(holder.iv, cardBean.getImgUrl());
 
     }
 

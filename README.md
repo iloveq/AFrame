@@ -1,6 +1,36 @@
 # AFrame
 # 最近更新
 
+提供新的网络请求方式：
+```
+/**------ model ------*/
+// 对 okhttp 二次封装
+RequestCtx ctx = new RequestCtx.Builder()
+    .setUrl("http://gank.io/api/data/福利/" + "10/" + index)
+    .setParser(new GetCardListJsonParser())
+    .setCallback(callback).build();
+HttpUtils.get().req(ctx);
+/**------ presenter ------*/
+ @Override
+    public void getCardList(int pageNum) {
+        checkViewAttached();
+        view.showLoading("");
+        model.getCardList(pageNum, new Callback() {
+            @Override
+            public void then(Object o) {
+                view.closeLoading();
+                view.renderPage(o);
+            }
+
+            @Override
+            public void error(Object o) {
+                view.closeLoading();
+                view.showError((String) o);
+            }
+        });
+    }
+```
+
 ```
 version - 0.1.7
 

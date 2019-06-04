@@ -20,6 +20,7 @@ import com.woaiqw.aframe.R;
 import com.woaiqw.aframe.adapter.CardListAdapter;
 import com.woaiqw.aframe.bean.CardBean;
 import com.woaiqw.aframe.contract.MainContract;
+import com.woaiqw.aframe.presenter.Main1Presenter;
 import com.woaiqw.aframe.presenter.MainPresenter;
 import com.woaiqw.aframe.view.widget.BorderDividerItemDecoration;
 import com.woaiqw.base.common.BaseLoadingListActivity;
@@ -47,7 +48,8 @@ public class MainActivity extends BaseLoadingListActivity implements MainContrac
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new MainPresenter();
+        // presenter = new MainPresenter();
+        presenter = new Main1Presenter();
         presenter.onAttach(this);
         AndPermission.with(this)
                 .runtime()

@@ -18,13 +18,15 @@ public class Main1Presenter extends BasePresenter<MainContract.IMainView, Main1M
         view.showLoading("");
         model.getCardList(pageNum, new Callback() {
             @Override
-            public Callback then(String o) {
-                return null;
+            public void then(Object o) {
+                view.closeLoading();
+                view.renderPage(o);
             }
 
             @Override
-            public Callback error(String o) {
-                return null;
+            public void error(Object o) {
+                view.closeLoading();
+                view.showError((String) o);
             }
         });
     }

@@ -27,11 +27,11 @@ public class HttpUtils {
         this.adapter = adapter;
     }
 
-    public HAdapter req(final RequestCtx ctx) {
+    public void req(final RequestCtx ctx) {
         if (adapter == null) {
             throw new RuntimeException(" adapter must be new ");
         }
-        return adapter.request(ctx);
+        adapter.request(ctx);
     }
 
 }

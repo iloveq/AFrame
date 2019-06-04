@@ -1,6 +1,7 @@
 package com.woaiqw.base.network.core;
 
 import com.woaiqw.base.network.internel.Callback;
+import com.woaiqw.base.network.internel.Parser;
 
 import java.util.HashMap;
 
@@ -8,14 +9,15 @@ import java.util.HashMap;
 /**
  * Created by haoran on 2019/6/4.
  */
-public class RequestCtx {
+public class RequestCtx<T> {
 
     private final String url;
     private final String method;
     private final HashMap<String, String> paramMap;
     private final HashMap<String, String> headerMap;
     private final String body;
-    private boolean canceled;
+    private final boolean canceled;
+    private final Parser parser;
     private final Callback callback;
 
     RequestCtx(Builder builder) {
@@ -24,8 +26,9 @@ public class RequestCtx {
         this.paramMap = builder.paramMap;
         this.headerMap = builder.headerMap;
         this.body = builder.body;
-        this.callback = builder.callback;
+        this.parser = builder.parser;
         this.canceled = builder.canceled;
+        this.callback = builder.callback;
     }
 
     public String getUrl() {
@@ -48,13 +51,19 @@ public class RequestCtx {
         return body;
     }
 
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public Parser getParser() {
+        return parser;
+    }
+
     public Callback getCallback() {
         return callback;
     }
 
-    public boolean isCanceled() {
-        return canceled;
-    }
+
 
     public static class Builder {
         String url;
@@ -63,6 +72,7 @@ public class RequestCtx {
         HashMap<String, String> headerMap;
         String body;
         boolean canceled;
+        Parser parser;
         Callback callback;
 
         public Builder setUrl(String url) {
@@ -92,6 +102,11 @@ public class RequestCtx {
 
         public Builder setCanceled(boolean canceled) {
             this.canceled = canceled;
+            return this;
+        }
+
+        public Builder setParser(Parser parser) {
+            this.parser = parser;
             return this;
         }
 

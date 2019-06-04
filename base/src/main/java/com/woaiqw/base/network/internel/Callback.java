@@ -5,8 +5,8 @@ package com.woaiqw.base.network.internel;
  */
 public interface Callback {
 
-    HAdapter then(String o);
+    void then(Object o);
 
-    HAdapter error(String o);
+    void error(Object o);
 
 }

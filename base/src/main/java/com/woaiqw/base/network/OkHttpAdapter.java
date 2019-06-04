@@ -6,17 +6,21 @@ import com.woaiqw.base.network.core.RequestCtx;
 import com.woaiqw.base.network.internel.HAdapter;
 import com.woaiqw.base.network.utils.OkHttpHelper;
 import com.woaiqw.base.network.utils.ParamsUtils;
-import com.woaiqw.base.utils.WeakHandler;
 
+import java.io.IOException;
 import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,7 +33,6 @@ import okhttp3.Response;
 public class OkHttpAdapter implements HAdapter {
 
     private OkHttpClient clone;
-    private WeakHandler handler;
     private CompositeDisposable disposable;
     private Disposable dispatcher;
 
@@ -39,7 +42,7 @@ public class OkHttpAdapter implements HAdapter {
     }
 
     @Override
-    public HAdapter request(final RequestCtx ctx) {
+    public void request(final RequestCtx ctx) {
         if (ctx == null) {
             throw new RuntimeException(" please new ctx ");
         }
@@ -49,28 +52,57 @@ public class OkHttpAdapter implements HAdapter {
         if (ctx.getUrl() == null || ctx.getUrl().isEmpty()) {
             throw new RuntimeException(" url is empty ");
         }
+        if (ctx.getParser() == null) {
+            throw new RuntimeException(" parser is empty ");
+        }
         ThreadPool.getInstance().getPool().execute(new Runnable() {
             @Override
             public void run() {
                 doRequestTask(ctx);
             }
         });
-        return this;
 
     }
 
     private void doRequestTask(final RequestCtx ctx) {
-//        dispatcher = Observable.create(new ObservableOnSubscribe<Call>() {
-//
-//            @Override
-//            public void subscribe(ObservableEmitter<Call> emitter) throws Exception {
-//                emitter.onNext(enqueue(ctx));
-//            }
-//        }).map(new Function<Call, String>() {
-//        })
+        dispatcher = Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(final ObservableEmitter<String> emitter) {
+                generateCall(ctx).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        emitter.onError(e);
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        emitter.onNext(response.body().string());
+                    }
+                });
+
+            }
+        }).map(new Function<String, Object>() {
+            @Override
+            public Object apply(String s) throws Exception {
+                return ctx.getParser().parse(s);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object data) {
+                        ctx.getCallback().then(data);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        ctx.getCallback().error(throwable.toString());
+                    }
+                });
+        disposable.add(dispatcher);
     }
 
-    private Call enqueue(final RequestCtx ctx) {
+    private Call generateCall(final RequestCtx ctx) {
 
         String baseUrl = ctx.getUrl();
         if (ctx.getParamMap() != null && !ctx.getParamMap().isEmpty()) {
@@ -89,8 +121,9 @@ public class OkHttpAdapter implements HAdapter {
             }
         }
         if (ctx.getHeaderMap() != null && !ctx.getHeaderMap().isEmpty()) {
-            for (Map.Entry<String, String> entry : ctx.getHeaderMap().entrySet()) {
-                builder.addHeader(entry.getKey(), entry.getValue());
+            for (Object o : ctx.getHeaderMap().entrySet()) {
+                Map.Entry<String, String> next = (Map.Entry<String, String>) o;
+                builder.addHeader(next.getKey(), next.getValue());
             }
         }
         Call call = clone.newCall(builder.build());
@@ -104,8 +137,4 @@ public class OkHttpAdapter implements HAdapter {
 
     }
 
-    private void dispatcher(final boolean success, final Throwable throwable, final Response response) {
-
-
-    }
 }
