@@ -1,5 +1,7 @@
 package com.woaiqw.base.network;
 
+import android.util.Log;
+
 import com.woaiqw.base.core.ThreadPool;
 import com.woaiqw.base.network.constants.HConstants;
 import com.woaiqw.base.network.core.RequestCtx;
@@ -75,11 +77,13 @@ public class OkHttpAdapter implements HAdapter {
         dispatcher = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) {
+                Log.e("threadName - create",Thread.currentThread().getName());
                 generateCall(ctx).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         emitter.onError(e);
                     }
+
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         ResponseBody rawBody = response.body();
@@ -103,17 +107,20 @@ public class OkHttpAdapter implements HAdapter {
                         }
                         ExceptionCatchingRequestBody catchingBody = new ExceptionCatchingRequestBody(rawBody);
                         // GsonFactory convert
+                        Log.e("threadName - response",Thread.currentThread().getName());
                         emitter.onNext(catchingBody.string());
                     }
                 });
 
             }
-        }).map(new Function<String, Object>() {
-            @Override
-            public Object apply(String s) throws Exception {
-                return ctx.getParser().parse(s);
-            }
         }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .map(new Function<String, Object>() {
+                    @Override
+                    public Object apply(String s) throws Exception {
+                        return ctx.getParser().parse(s);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Object>() {
                     @Override
