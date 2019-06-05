@@ -81,7 +81,7 @@ public class OkHttpAdapter implements HAdapter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 ResponseBody rawBody = response.body();
                 // Remove the body's source (the only stateful object) so we can pass the response along.
                 if (rawBody == null) {
@@ -113,7 +113,7 @@ public class OkHttpAdapter implements HAdapter {
     private void dispatcher(final RequestCtx ctx, final boolean success, final ResponseBody response, final Throwable error) {
         dispatcher = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
+            public void subscribe(final ObservableEmitter<String> emitter) throws IOException {
                 Log.e("threadName - dispatcher", Thread.currentThread().getName());
                 if (success) {
                     String string = response.string();
