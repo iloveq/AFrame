@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.woaiqw.base.R;
-import com.woaiqw.base.common.hock.BaseHockActivity;
+import com.woaiqw.base.common.app.BaseAppActivity;
 import com.woaiqw.base.mvp.IBaseLoadingView;
 import com.woaiqw.base.utils.ActivityUtils;
 import com.woaiqw.base.utils.ToastUtils;
@@ -18,7 +18,7 @@ import com.woaiqw.base.widget.NetworkStateView;
 /**
  * Created by haoran on 2019/5/30.
  */
-public abstract class BaseLoadingActivity extends BaseHockActivity implements IBaseLoadingView, NetworkStateView.OnRetryClickListener {
+public abstract class BaseLoadingActivity extends BaseAppActivity implements IBaseLoadingView, NetworkStateView.OnRetryClickListener {
 
     protected NetworkStateView nsv;
     private View child;

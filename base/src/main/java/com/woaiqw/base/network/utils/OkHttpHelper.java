@@ -3,7 +3,7 @@ package com.woaiqw.base.network.utils;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.woaiqw.base.common.hock.BaseHockApp;
+import com.woaiqw.base.common.app.BaseApp;
 import com.woaiqw.base.utils.FileHelper;
 import com.woaiqw.base.utils.NetworkUtils;
 
@@ -75,7 +75,7 @@ public class OkHttpHelper {
         public Response intercept(@NonNull Chain chain) throws IOException {
 
             Request request = chain.request();
-            if (!NetworkUtils.isNetworkAvailable(BaseHockApp.getApplication())) {
+            if (!NetworkUtils.isNetworkAvailable(BaseApp.getApplication())) {
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();
@@ -84,7 +84,7 @@ public class OkHttpHelper {
             }
             Response response = chain.proceed(request);
 
-            if (NetworkUtils.isNetworkAvailable(BaseHockApp.getApplication())) {
+            if (NetworkUtils.isNetworkAvailable(BaseApp.getApplication())) {
                 // read from cache for 1 minute
                 response.newBuilder()
                         .removeHeader(pragma)

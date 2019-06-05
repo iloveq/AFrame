@@ -1,4 +1,4 @@
-package com.woaiqw.base.common.hock;
+package com.woaiqw.base.common.app;
 
 import android.app.Application;
 
@@ -9,9 +9,9 @@ import com.woaiqw.base.utils.FileHelper;
  * 为了做一些公共操作
  */
 
-public class BaseHockApp extends Application {
+public class BaseApp extends Application {
 
-    private static BaseHockApp baseApp;
+    private static BaseApp baseApp;
 
     public static Application getApplication() {
         return baseApp;

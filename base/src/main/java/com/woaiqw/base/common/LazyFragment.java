@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.woaiqw.base.common.hock.BaseHockFragment;
+import com.woaiqw.base.common.app.BaseAppFragment;
 
 
 /**
  * Created by haoran on 2017/8/29.
  */
 
-public abstract class LazyFragment extends BaseHockFragment {
+public abstract class LazyFragment extends BaseAppFragment {
 
     private Bundle savedInstanceState;
     private boolean isInit = false;

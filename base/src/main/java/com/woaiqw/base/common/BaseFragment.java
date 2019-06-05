@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.woaiqw.base.common.hock.BaseHockFragment;
+import com.woaiqw.base.common.app.BaseAppFragment;
 
 
 /**
@@ -14,7 +14,7 @@ import com.woaiqw.base.common.hock.BaseHockFragment;
  * Fragment基类
  */
 
-public abstract class BaseFragment extends BaseHockFragment {
+public abstract class BaseFragment extends BaseAppFragment {
 
     @Nullable
     @Override

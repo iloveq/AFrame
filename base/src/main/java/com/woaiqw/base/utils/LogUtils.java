@@ -16,7 +16,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
-import com.woaiqw.base.common.hock.BaseHockApp;
+import com.woaiqw.base.common.app.BaseApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -546,9 +546,9 @@ public class LogUtils {
         String versionName = "";
         int versionCode = 0;
         try {
-            PackageInfo pi = BaseHockApp.getApplication()
+            PackageInfo pi = BaseApp.getApplication()
                     .getPackageManager()
-                    .getPackageInfo(BaseHockApp.getApplication().getPackageName(), 0);
+                    .getPackageInfo(BaseApp.getApplication().getPackageName(), 0);
             if (pi != null) {
                 versionName = pi.versionName;
                 versionCode = pi.versionCode;
@@ -628,10 +628,10 @@ public class LogUtils {
         private Config() {
             if (mDefaultDir != null) return;
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-                    && BaseHockApp.getApplication().getExternalCacheDir() != null)
-                mDefaultDir = BaseHockApp.getApplication().getExternalCacheDir() + FILE_SEP + "log" + FILE_SEP;
+                    && BaseApp.getApplication().getExternalCacheDir() != null)
+                mDefaultDir = BaseApp.getApplication().getExternalCacheDir() + FILE_SEP + "log" + FILE_SEP;
             else {
-                mDefaultDir = BaseHockApp.getApplication().getCacheDir() + FILE_SEP + "log" + FILE_SEP;
+                mDefaultDir = BaseApp.getApplication().getCacheDir() + FILE_SEP + "log" + FILE_SEP;
             }
         }
 

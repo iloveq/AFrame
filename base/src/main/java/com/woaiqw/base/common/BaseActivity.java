@@ -3,7 +3,7 @@ package com.woaiqw.base.common;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.woaiqw.base.common.hock.BaseHockActivity;
+import com.woaiqw.base.common.app.BaseAppActivity;
 import com.woaiqw.base.utils.ActivityUtils;
 
 
@@ -14,7 +14,7 @@ import com.woaiqw.base.utils.ActivityUtils;
  * Activity基类
  */
 
-public abstract class BaseActivity extends BaseHockActivity {
+public abstract class BaseActivity extends BaseAppActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

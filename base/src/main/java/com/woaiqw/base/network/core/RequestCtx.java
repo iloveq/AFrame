@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Created by haoran on 2019/6/4.
  */
-public class RequestCtx<T> {
+public class RequestCtx {
 
     private final String url;
     private final String method;

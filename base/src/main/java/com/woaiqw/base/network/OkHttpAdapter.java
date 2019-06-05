@@ -8,6 +8,7 @@ import com.woaiqw.base.network.utils.OkHttpHelper;
 import com.woaiqw.base.network.utils.ParamsUtils;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -26,6 +27,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
+import okio.ForwardingSource;
+import okio.Okio;
+
 
 /**
  * Created by haoran on 2019/6/4.
@@ -73,10 +80,30 @@ public class OkHttpAdapter implements HAdapter {
                     public void onFailure(Call call, IOException e) {
                         emitter.onError(e);
                     }
-
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
-                        emitter.onNext(response.body().string());
+                        ResponseBody rawBody = response.body();
+                        // Remove the body's source (the only stateful object) so we can pass the response along.
+                        if (rawBody == null) {
+                            emitter.onError(new Exception(" response body == null "));
+                            return;
+                        }
+                        response = response.newBuilder()
+                                .body(new NoContentResponseBody(rawBody.contentType(), rawBody.contentLength()))
+                                .build();
+
+                        int code = response.code();
+                        if (code < 200 || code >= 300) {
+                            emitter.onError(new Exception(" response.code < 200 || response.code > 300 "));
+                            rawBody.close();
+                        }
+                        if (code == 204 || code == 205) {
+                            emitter.onNext(null);
+                            rawBody.close();
+                        }
+                        ExceptionCatchingRequestBody catchingBody = new ExceptionCatchingRequestBody(rawBody);
+                        // GsonFactory convert
+                        emitter.onNext(catchingBody.string());
                     }
                 });
 
@@ -92,22 +119,30 @@ public class OkHttpAdapter implements HAdapter {
                     @Override
                     public void accept(Object data) {
                         ctx.getCallback().then(data);
+                        if (disposable != null) {
+                            disposable.remove(dispatcher);
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
                         ctx.getCallback().error(throwable.toString());
+                        if (disposable != null) {
+                            disposable.remove(dispatcher);
+                        }
                     }
                 });
         disposable.add(dispatcher);
     }
 
-    private Call generateCall(final RequestCtx ctx) {
+    private Call generateCall(RequestCtx ctx) {
 
         String baseUrl = ctx.getUrl();
+
         if (ctx.getParamMap() != null && !ctx.getParamMap().isEmpty()) {
             baseUrl = ParamsUtils.getUrl(ctx.getUrl(), ctx.getParamMap());
         }
+
         Request.Builder builder = new Request.Builder()
                 .url(baseUrl);
 
@@ -120,12 +155,14 @@ public class OkHttpAdapter implements HAdapter {
                     break;
             }
         }
-        if (ctx.getHeaderMap() != null && !ctx.getHeaderMap().isEmpty()) {
-            for (Object o : ctx.getHeaderMap().entrySet()) {
-                Map.Entry<String, String> next = (Map.Entry<String, String>) o;
-                builder.addHeader(next.getKey(), next.getValue());
+
+        HashMap<String, String> headerMap = ctx.getHeaderMap();
+        if (headerMap != null && !headerMap.isEmpty()) {
+            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                builder.addHeader(entry.getKey(), entry.getValue());
             }
         }
+
         Call call = clone.newCall(builder.build());
 
         if (ctx.isCanceled()) {
@@ -134,7 +171,76 @@ public class OkHttpAdapter implements HAdapter {
 
         return call;
 
+    }
 
+    static final class NoContentResponseBody extends ResponseBody {
+        private final MediaType contentType;
+        private final long contentLength;
+
+        NoContentResponseBody(MediaType contentType, long contentLength) {
+            this.contentType = contentType;
+            this.contentLength = contentLength;
+        }
+
+        @Override
+        public MediaType contentType() {
+            return contentType;
+        }
+
+        @Override
+        public long contentLength() {
+            return contentLength;
+        }
+
+        @Override
+        public BufferedSource source() {
+            throw new IllegalStateException("Cannot read raw response body of a converted body.");
+        }
+    }
+
+    static final class ExceptionCatchingRequestBody extends ResponseBody {
+        private final ResponseBody delegate;
+        IOException thrownException;
+
+        ExceptionCatchingRequestBody(ResponseBody delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        public MediaType contentType() {
+            return delegate.contentType();
+        }
+
+        @Override
+        public long contentLength() {
+            return delegate.contentLength();
+        }
+
+        @Override
+        public BufferedSource source() {
+            return Okio.buffer(new ForwardingSource(delegate.source()) {
+                @Override
+                public long read(Buffer sink, long byteCount) throws IOException {
+                    try {
+                        return super.read(sink, byteCount);
+                    } catch (IOException e) {
+                        thrownException = e;
+                        throw e;
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void close() {
+            delegate.close();
+        }
+
+        void throwIfCaught() throws IOException {
+            if (thrownException != null) {
+                throw thrownException;
+            }
+        }
     }
 
 }

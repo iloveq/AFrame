@@ -1,14 +1,11 @@
 package com.woaiqw.aframe;
 
-import com.woaiqw.aframe.config.SpConstants;
 import com.woaiqw.base.AFrameBinder;
 import com.woaiqw.base.AFrameProxy;
-import com.woaiqw.base.common.hock.BaseHockApp;
+import com.woaiqw.base.common.app.BaseApp;
 import com.woaiqw.base.network.OkHttpAdapter;
 import com.woaiqw.base.network.core.HttpUtils;
-import com.woaiqw.base.network.utils.HttpsUtils;
 import com.woaiqw.base.network.utils.OkHttpHelper;
-import com.woaiqw.base.utils.SPUtils;
 
 import okhttp3.OkHttpClient;
 import retrofit2.CallAdapter;
@@ -20,11 +17,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by haoran on 2018/5/13.
  */
 
-public class App extends BaseHockApp {
+public class App extends BaseApp {
     @Override
     public void onCreate() {
         super.onCreate();
-        AFrameProxy.getInstance().initAFrame(new AFrameBinder() {
+       /* AFrameProxy.getInstance().initAFrame(new AFrameBinder() {
             @Override
             public Class getApiService() {
                 return IApiService.class;
@@ -50,8 +47,8 @@ public class App extends BaseHockApp {
             public CallAdapter.Factory getCallAdapterFactory() {
                 return RxJava2CallAdapterFactory.create();
             }
-        });
-        SPUtils.getInstance().put(SpConstants.CONFIG,"test");
+        });*/
+
 
         HttpUtils.get().setAdapter(new OkHttpAdapter());
 
