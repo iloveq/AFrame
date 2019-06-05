@@ -110,13 +110,14 @@ public class OkHttpAdapter implements HAdapter {
 
     }
 
-    private void dispatcher(final RequestCtx ctx, final boolean success, final ResponseBody response, final Throwable error) {
+    private void dispatcher(final RequestCtx ctx, final boolean success, final ExceptionCatchingRequestBody responseBody, final Throwable error) {
         dispatcher = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws IOException {
                 Log.e("threadName - dispatcher", Thread.currentThread().getName());
                 if (success) {
-                    String string = response.string();
+                    responseBody.throwIfCaught();
+                    String string = responseBody.string();
                     emitter.onNext(string);
                 } else {
                     emitter.onError(error);
