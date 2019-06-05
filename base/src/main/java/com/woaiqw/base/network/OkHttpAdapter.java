@@ -74,43 +74,53 @@ public class OkHttpAdapter implements HAdapter {
     }
 
     private void doRequestTask(final RequestCtx ctx) {
+        generateCall(ctx).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                dispatcher(ctx, false, null, e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                ResponseBody rawBody = response.body();
+                // Remove the body's source (the only stateful object) so we can pass the response along.
+                if (rawBody == null) {
+                    dispatcher(ctx, false, null, new Exception(" response body == null "));
+                    return;
+                }
+                response = response.newBuilder()
+                        .body(new NoContentResponseBody(rawBody.contentType(), rawBody.contentLength()))
+                        .build();
+
+                int code = response.code();
+                if (code < 200 || code >= 300) {
+                    dispatcher(ctx, false, null, new Exception(" response.code < 200 || response.code > 300 "));
+                    rawBody.close();
+                }
+                if (code == 204 || code == 205) {
+                    dispatcher(ctx, true, null, null);
+                    rawBody.close();
+                }
+                ExceptionCatchingRequestBody catchingBody = new ExceptionCatchingRequestBody(rawBody);
+                // GsonFactory convert
+                Log.e("threadName - response", Thread.currentThread().getName());
+                dispatcher(ctx, true, catchingBody, null);
+            }
+        });
+
+    }
+
+    private void dispatcher(final RequestCtx ctx, final boolean success, final ResponseBody response, final Throwable error) {
         dispatcher = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void subscribe(final ObservableEmitter<String> emitter) {
-                Log.e("threadName - create",Thread.currentThread().getName());
-                generateCall(ctx).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        emitter.onError(e);
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        ResponseBody rawBody = response.body();
-                        // Remove the body's source (the only stateful object) so we can pass the response along.
-                        if (rawBody == null) {
-                            emitter.onError(new Exception(" response body == null "));
-                            return;
-                        }
-                        response = response.newBuilder()
-                                .body(new NoContentResponseBody(rawBody.contentType(), rawBody.contentLength()))
-                                .build();
-
-                        int code = response.code();
-                        if (code < 200 || code >= 300) {
-                            emitter.onError(new Exception(" response.code < 200 || response.code > 300 "));
-                            rawBody.close();
-                        }
-                        if (code == 204 || code == 205) {
-                            emitter.onNext(null);
-                            rawBody.close();
-                        }
-                        ExceptionCatchingRequestBody catchingBody = new ExceptionCatchingRequestBody(rawBody);
-                        // GsonFactory convert
-                        Log.e("threadName - response",Thread.currentThread().getName());
-                        emitter.onNext(catchingBody.string());
-                    }
-                });
+            public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
+                Log.e("threadName - dispatcher", Thread.currentThread().getName());
+                if (success) {
+                    String string = response.string();
+                    emitter.onNext(string);
+                } else {
+                    emitter.onError(error);
+                }
 
             }
         }).subscribeOn(Schedulers.io())
@@ -141,6 +151,7 @@ public class OkHttpAdapter implements HAdapter {
                 });
         disposable.add(dispatcher);
     }
+
 
     private Call generateCall(RequestCtx ctx) {
 
