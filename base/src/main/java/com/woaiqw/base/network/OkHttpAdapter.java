@@ -101,23 +101,24 @@ public class OkHttpAdapter implements HAdapter {
                     dispatcher(ctx, true, null, null);
                     rawBody.close();
                 }
-                ExceptionCatchingRequestBody catchingBody = new ExceptionCatchingRequestBody(rawBody);
+
                 // GsonFactory convert
                 Log.e("threadName - response", Thread.currentThread().getName());
-                dispatcher(ctx, true, catchingBody, null);
+                dispatcher(ctx, true, rawBody, null);
             }
         });
 
     }
 
-    private void dispatcher(final RequestCtx ctx, final boolean success, final ExceptionCatchingRequestBody responseBody, final Throwable error) {
+    private void dispatcher(final RequestCtx ctx, final boolean success, final ResponseBody rawBody, final Throwable error) {
         dispatcher = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws IOException {
                 Log.e("threadName - dispatcher", Thread.currentThread().getName());
                 if (success) {
-                    responseBody.throwIfCaught();
-                    String string = responseBody.string();
+                    ExceptionCatchingRequestBody catchingBody = new ExceptionCatchingRequestBody(rawBody);
+                    catchingBody.throwIfCaught();
+                    String string = catchingBody.string();
                     emitter.onNext(string);
                 } else {
                     emitter.onError(error);

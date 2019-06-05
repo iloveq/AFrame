@@ -4,6 +4,10 @@
 提供新的网络请求方式：
 ```
 /**------ model ------*/
+E/threadName - response: OkHttp http://gank.io/...
+E/threadName - dispatcher: RxCachedThreadScheduler-1
+E/threadName - parse: RxComputationThreadPool-1
+E/threadName - then: main
 // 对 okhttp 二次封装
 RequestCtx ctx = new RequestCtx.Builder()
     .setUrl("http://gank.io/api/data/福利/" + "10/" + index)
