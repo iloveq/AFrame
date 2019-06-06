@@ -10,14 +10,16 @@ import com.google.gson.annotations.SerializedName;
 public class CardBean {
 
 
-        @SerializedName("url")
-        private String imgUrl;
-        public String getImgUrl() {
-            return imgUrl;
-        }
-        public void setImgUrl(String url){
-            this.imgUrl = url;
-        }
+    @SerializedName("url")
+    private String imgUrl;
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String url) {
+        this.imgUrl = url;
+    }
 
 
 }
