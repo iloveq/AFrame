@@ -1,7 +1,5 @@
 package com.woaiqw.aframe.presenter;
 
-import android.util.Log;
-
 import com.woaiqw.aframe.contract.MainContract;
 import com.woaiqw.aframe.model.Main1Model;
 import com.woaiqw.base.mvp.BasePresenter;
@@ -21,7 +19,6 @@ public class Main1Presenter extends BasePresenter<MainContract.IMainView, Main1M
         model.getCardList(pageNum, new Callback() {
             @Override
             public void then(Object o) {
-                Log.e("threadName - then",Thread.currentThread().getName());
                 view.closeLoading();
                 view.renderPage(o);
             }

@@ -1,6 +1,8 @@
 package com.woaiqw.base.network.core;
 
+import com.woaiqw.base.network.internel.Callback;
 import com.woaiqw.base.network.internel.HAdapter;
+import com.woaiqw.base.network.internel.Parser;
 
 
 /**
@@ -27,11 +29,11 @@ public class HttpUtils {
         this.adapter = adapter;
     }
 
-    public void req(final RequestCtx ctx) {
+    public void req(final RequestCtx ctx, Parser parser, Callback callback) {
         if (adapter == null) {
             throw new RuntimeException(" adapter must be new ");
         }
-        adapter.request(ctx);
+        adapter.request(ctx,parser,callback);
     }
 
 }

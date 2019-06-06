@@ -11,9 +11,8 @@ E/threadName - then: main
 // 对 okhttp 二次封装
 RequestCtx ctx = new RequestCtx.Builder()
     .setUrl("http://gank.io/api/data/福利/" + "10/" + index)
-    .setParser(new GetCardListJsonParser())
-    .setCallback(callback).build();
-HttpUtils.get().req(ctx);
+    .build();
+HttpUtils.get().req(ctx,new GetCardListJsonParser(),callback);
 /**------ presenter ------*/
  @Override
     public void getCardList(int pageNum) {

@@ -14,8 +14,7 @@ import java.util.List;
 public class GetCardListJsonParser implements Parser {
     @Override
     public List<CardBean> parse(String jsonStr)throws Exception {
-        Log.e("threadName - parse",Thread.currentThread().getName());
-        Log.e("ss",jsonStr);
+        Log.e("jsonStr",jsonStr);
         List<CardBean> list = new ArrayList<>();
         JSONObject data = new JSONObject(jsonStr);
         JSONArray array = data.getJSONArray("results");

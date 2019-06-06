@@ -1,11 +1,12 @@
 package com.woaiqw.base.network;
 
-import android.util.Log;
-
 import com.woaiqw.base.core.ThreadPool;
 import com.woaiqw.base.network.constants.HConstants;
 import com.woaiqw.base.network.core.RequestCtx;
+import com.woaiqw.base.network.internel.Callback;
 import com.woaiqw.base.network.internel.HAdapter;
+import com.woaiqw.base.network.internel.Parser;
+import com.woaiqw.base.network.utils.L;
 import com.woaiqw.base.network.utils.OkHttpHelper;
 import com.woaiqw.base.network.utils.ParamsUtils;
 
@@ -23,7 +24,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -51,41 +51,46 @@ public class OkHttpAdapter implements HAdapter {
     }
 
     @Override
-    public void request(final RequestCtx ctx) {
+    public void request(final RequestCtx ctx, final Parser parser, final Callback callback) {
         if (ctx == null) {
             throw new RuntimeException(" please new ctx ");
         }
-        if (ctx.getCallback() == null) {
+        if (parser == null) {
+            throw new RuntimeException(" parser is empty ");
+        }
+        if (callback == null) {
             throw new RuntimeException(" callback is empty ");
         }
         if (ctx.getUrl() == null || ctx.getUrl().isEmpty()) {
             throw new RuntimeException(" url is empty ");
         }
-        if (ctx.getParser() == null) {
-            throw new RuntimeException(" parser is empty ");
-        }
         ThreadPool.getInstance().getPool().execute(new Runnable() {
             @Override
             public void run() {
-                doRequestTask(ctx);
+                Call call = generateCall(ctx);
+                doRequest(call, parser, callback);
             }
         });
 
     }
 
-    private void doRequestTask(final RequestCtx ctx) {
-        generateCall(ctx).enqueue(new Callback() {
+    private void doRequest(Call call, final Parser parser, final Callback callback) {
+
+        if (call.isCanceled()) {
+            dispatcher(parser, callback, true, null, null);
+            return;
+        }
+        call.enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                dispatcher(ctx, false, null, e);
+                dispatcher(parser, callback, false, null, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) {
                 ResponseBody rawBody = response.body();
-                // Remove the body's source (the only stateful object) so we can pass the response along.
                 if (rawBody == null) {
-                    dispatcher(ctx, false, null, new Exception(" response body == null "));
+                    dispatcher(parser, callback, false, null, new Exception(" response body == null "));
                     return;
                 }
                 response = response.newBuilder()
@@ -94,27 +99,26 @@ public class OkHttpAdapter implements HAdapter {
 
                 int code = response.code();
                 if (code < 200 || code >= 300) {
-                    dispatcher(ctx, false, null, new Exception(" response.code < 200 || response.code > 300 "));
+                    dispatcher(parser, callback, false, null, new Exception(" response.code < 200 || response.code > 300 "));
                     rawBody.close();
                 }
                 if (code == 204 || code == 205) {
-                    dispatcher(ctx, true, null, null);
+                    dispatcher(parser, callback, true, null, null);
                     rawBody.close();
                 }
-
-                // GsonFactory convert
-                Log.e("threadName - response", Thread.currentThread().getName());
-                dispatcher(ctx, true, rawBody, null);
+                L.e("threadName - response", Thread.currentThread().getName());
+                dispatcher(parser, callback, true, rawBody, null);
             }
         });
 
     }
 
-    private void dispatcher(final RequestCtx ctx, final boolean success, final ResponseBody rawBody, final Throwable error) {
+    private void dispatcher(final Parser parser, final Callback callback,
+                            final boolean success, final ResponseBody rawBody, final Throwable error) {
         dispatcher = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws IOException {
-                Log.e("threadName - dispatcher", Thread.currentThread().getName());
+                L.e("threadName - dispatcher", Thread.currentThread().getName());
                 if (success) {
                     ExceptionCatchingRequestBody catchingBody = new ExceptionCatchingRequestBody(rawBody);
                     catchingBody.throwIfCaught();
@@ -130,14 +134,16 @@ public class OkHttpAdapter implements HAdapter {
                 .map(new Function<String, Object>() {
                     @Override
                     public Object apply(String s) throws Exception {
-                        return ctx.getParser().parse(s);
+                        L.e("threadName - parse", Thread.currentThread().getName());
+                        return parser.parse(s);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(Object data) {
-                        ctx.getCallback().then(data);
+                        L.e("threadName - then", Thread.currentThread().getName());
+                        callback.then(data);
                         if (disposable != null) {
                             disposable.remove(dispatcher);
                         }
@@ -145,7 +151,7 @@ public class OkHttpAdapter implements HAdapter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
-                        ctx.getCallback().error(throwable.toString());
+                        callback.error(throwable.toString());
                         if (disposable != null) {
                             disposable.remove(dispatcher);
                         }

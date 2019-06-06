@@ -1,8 +1,5 @@
 package com.woaiqw.base.network.core;
 
-import com.woaiqw.base.network.internel.Callback;
-import com.woaiqw.base.network.internel.Parser;
-
 import java.util.HashMap;
 
 
@@ -17,8 +14,7 @@ public class RequestCtx {
     private final HashMap<String, String> headerMap;
     private final String body;
     private final boolean canceled;
-    private final Parser parser;
-    private final Callback callback;
+
 
     RequestCtx(Builder builder) {
         this.url = builder.url;
@@ -26,9 +22,7 @@ public class RequestCtx {
         this.paramMap = builder.paramMap;
         this.headerMap = builder.headerMap;
         this.body = builder.body;
-        this.parser = builder.parser;
         this.canceled = builder.canceled;
-        this.callback = builder.callback;
     }
 
     public String getUrl() {
@@ -55,14 +49,6 @@ public class RequestCtx {
         return canceled;
     }
 
-    public Parser getParser() {
-        return parser;
-    }
-
-    public Callback getCallback() {
-        return callback;
-    }
-
 
 
     public static class Builder {
@@ -72,8 +58,6 @@ public class RequestCtx {
         HashMap<String, String> headerMap;
         String body;
         boolean canceled;
-        Parser parser;
-        Callback callback;
 
         public Builder setUrl(String url) {
             this.url = url;
@@ -102,16 +86,6 @@ public class RequestCtx {
 
         public Builder setCanceled(boolean canceled) {
             this.canceled = canceled;
-            return this;
-        }
-
-        public Builder setParser(Parser parser) {
-            this.parser = parser;
-            return this;
-        }
-
-        public Builder setCallback(Callback callback) {
-            this.callback = callback;
             return this;
         }
 
