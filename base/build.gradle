@@ -22,24 +22,24 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.12'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    api 'io.reactivex.rxjava2:rxjava:2.1.12'
+    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
     //network
-    compile 'com.squareup.okhttp3:okhttp:3.10.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    api 'com.squareup.okhttp3:okhttp:3.10.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     //retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    api 'com.squareup.retrofit2:retrofit:2.3.0'
+    api 'com.squareup.retrofit2:converter-gson:2.3.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     //glide
-    implementation 'com.github.bumptech.glide:glide:4.3.1'
+    api 'com.github.bumptech.glide:glide:4.3.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
-    compile 'android.arch.lifecycle:extensions:1.1.0'
+    api 'android.arch.lifecycle:extensions:1.1.0'
 
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
-    compile 'com.yanzhenjie:permission:2.0.0-rc12'
-    compile 'com.github.woaigmz:SmartDiffAdapter:0.3.4'
-    compile 'com.android.support:recyclerview-v7:27.1.1'
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    api 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
+    api 'com.yanzhenjie:permission:2.0.0-rc12'
+    api 'com.github.woaigmz:SmartDiffAdapter:0.3.4'
+    api 'com.android.support:recyclerview-v7:27.1.1'
 
 }
